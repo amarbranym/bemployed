@@ -1,0 +1,145 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* styles/globals.css */
+/* 
+
+.page {
+  background: white;
+  display: block;
+  margin: auto;
+  margin-bottom: 0.5cm;
+
+  border: 1px solid rgba(0, 0, 0, 0.155);
+}
+
+.page[data-size="A4"] {
+  width: 21cm;
+  height: 29.7cm;
+}
+
+.page[data-size="A4"][layout="landscape"] {
+  width: 29.7cm;
+  height: 21cm;
+}
+
+.page[data-size="A3"] {
+  width: 29.7cm;
+  height: 42cm;
+}
+
+.page[data-size="A3"][layout="landscape"] {
+  width: 42cm;
+  height: 29.7cm;
+}
+
+.page[data-size="A5"] {
+  width: 14.8cm;
+  height: 21cm;
+}
+
+.page[data-size="A5"][layout="landscape"] {
+  width: 21cm;
+  height: 14.8cm;
+} */
+
+
+
+/* 
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  
+
+  .printable-area,
+  .printable-area * {
+    visibility: visible;
+  }
+
+
+
+} */
+
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  height: 4px;
+  width: 100%;
+  --c: no-repeat linear-gradient(#6100ee 0 0);
+  background: var(--c), var(--c), #d7b8fc;
+  background-size: 60% 100%;
+  animation: l16 3s infinite;
+}
+
+@keyframes l16 {
+  0% {
+    background-position: -150% 0, -150% 0
+  }
+
+  66% {
+    background-position: 250% 0, -150% 0
+  }
+
+  100% {
+    background-position: 250% 0, 250% 0
+  }
+}
+
+
+
+
+
+.page-footer,
+.page-footer-space {
+  height: 70px;
+
+}
+
+.page-footer {
+  position: fixed;
+  bottom: 0;
+  visibility: hidden;
+  width: 95%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+}
+
+.page-container {
+  width: 21cm;
+}
+
+.page {
+  page-break-after: always;
+  min-height: 29.7cm;
+  border: 1px solid rgba(0, 0, 0, 0.304);
+  padding: 20px 20px;
+  margin-bottom: 0.5cm;
+
+}
+
+@page {
+  /* margin: 20mm */
+}
+
+@media print {
+  .page{
+    border: none;
+  }
+
+  .page-footer {
+    visibility: visible;
+  }
+
+  tfoot {
+    display: table-footer-group;
+  }
+
+  body {
+    margin: 0;
+  }
+}
