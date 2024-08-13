@@ -15,6 +15,14 @@ const config: Config = {
       },
     },
   },
+  safelist: [
+    {
+      pattern: /^col-span-(1[0-2]|[1-9])$/,
+    },
+    {
+      pattern: /^row-span-(1[0-2]|[1-9])$/,
+    }
+  ],
   plugins: [],
 };
 export default config;

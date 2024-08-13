@@ -9,7 +9,10 @@ interface Props {
 
 }
 
-const FormFields: React.FC<Props> = ({ label, cols, row, ...props }) => {
+const FormFields: React.FC<Props> = (_props:any) => {
+
+  const {label, cols, row, ...props}:any = _props
+
   return (
     <div className={`col-span-${cols} row-span-${row} my-auto `}>
       <FormLabel label={label} name={props.name} />
