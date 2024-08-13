@@ -2,69 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* styles/globals.css */
-/* 
 
-.page {
-  background: white;
-  display: block;
-  margin: auto;
-  margin-bottom: 0.5cm;
-
-  border: 1px solid rgba(0, 0, 0, 0.155);
-}
-
-.page[data-size="A4"] {
-  width: 21cm;
-  height: 29.7cm;
-}
-
-.page[data-size="A4"][layout="landscape"] {
-  width: 29.7cm;
-  height: 21cm;
-}
-
-.page[data-size="A3"] {
-  width: 29.7cm;
-  height: 42cm;
-}
-
-.page[data-size="A3"][layout="landscape"] {
-  width: 42cm;
-  height: 29.7cm;
-}
-
-.page[data-size="A5"] {
-  width: 14.8cm;
-  height: 21cm;
-}
-
-.page[data-size="A5"][layout="landscape"] {
-  width: 21cm;
-  height: 14.8cm;
-} */
-
-
-
-/* 
-@media print {
-  body * {
-    visibility: hidden;
-  }
-
-  
-
-  .printable-area,
-  .printable-area * {
-    visibility: visible;
-  }
-
-
-
-} */
-
-
-/* HTML: <div class="loader"></div> */
 .loader {
   height: 4px;
   width: 100%;
@@ -94,7 +32,7 @@
 
 .page-footer,
 .page-footer-space {
-  height: 70px;
+  height: 60px;
 
 }
 
@@ -115,6 +53,7 @@
 
 .page {
   page-break-after: always;
+
   min-height: 29.7cm;
   border: 1px solid rgba(0, 0, 0, 0.304);
   padding: 20px 20px;
@@ -123,12 +62,13 @@
 }
 
 @page {
-  /* margin: 20mm */
+  margin: 20mm
 }
 
 @media print {
   .page{
     border: none;
+
   }
 
   .page-footer {

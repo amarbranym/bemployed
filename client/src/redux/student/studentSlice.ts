@@ -1,21 +1,19 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  token: "",
-  user: "",
+  contacts: [],
 };
 
 const studentSlice = createSlice({
   name: "student",
   initialState,
   reducers: {
-    userRegistration: (state, action: PayloadAction<{ token: string }>) => {
-      state.token = action.payload.token;
+    setContact: (state, action: PayloadAction<any>) => {
+      state.contacts = action.payload;
     },
   },
 });
 
-export const { userRegistration,  } =
-  studentSlice.actions;
+export const { setContact } = studentSlice.actions;
 
 export default studentSlice.reducer;

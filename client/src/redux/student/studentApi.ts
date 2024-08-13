@@ -10,16 +10,23 @@ export const studentApi = apiSlice.injectEndpoints({
         method: "GET",
         credentials: "include" as const,
       }),
-    //   async onQueryStarted(arg, { queryFulfilled, dispatch }) {
-    //     try {
-    //       const result = await queryFulfilled;
-    //       console.log(" student", result);
-    //     } catch (error: any) {
-    //       toast.error("falid");
-    //     }
-    //   },
+      //   async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+      //     try {
+      //       const result = await queryFulfilled;
+      //       console.log(" student", result);
+      //     } catch (error: any) {
+      //       toast.error("falid");
+      //     }
+      //   },
+    }),
+    getCities: builder.query({
+      query: () => ({
+        url: `cities?populate=*`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
     }),
   }),
 });
 
-export const { useGetStudentQuery } = studentApi;
+export const { useGetStudentQuery, useGetCitiesQuery } = studentApi;
