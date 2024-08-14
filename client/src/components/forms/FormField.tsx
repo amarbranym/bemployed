@@ -1,30 +1,25 @@
 import React from "react";
-import FormInputFields from "./Form_Input";
-import ContactComponent from "./ContactComponent";
-import Select from 'react-select';
+import Label from "./Label";
+import Fields from "./Fields";
+interface Props {
+  label: string;
+  name: string;
+  cols: number | string;
+  row: number,
 
-const FormField = ({ ...props }) => {
+}
+
+const FormFields: React.FC<Props> = (_props: any) => {
+
+  const { label, cols, row, ...props }: any = _props
+
   return (
-    <>
-      {["text", "number", "richtext"].includes(props.type) && (
-        <FormInputFields {...props} />
-      )}
-      {/* {["contact"].includes(props.type) && <ContactComponent insideField={props.insideField} />} */}
-      {["select"].includes(props.type) && (
-        <Select
-          // className="basic-single"
-          classNamePrefix="select"
-          defaultValue={props.selectOption[0]}
-          isClearable={true}
-          isSearchable={true}
-          className="basic-multi-select"
-          name="color"
-          options={props.selectOption}
-        />
-      )}
-
-    </>
+    <div className={`col-span-${cols} row-span-${row} my-auto `}>
+      <Label label={label} name={props.name} />
+      <Fields {...props} />
+    </div>
   );
 };
 
-export default FormField;
+
+export default FormFields;

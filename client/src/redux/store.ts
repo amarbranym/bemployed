@@ -6,11 +6,9 @@ import studentSlice from "./student/studentSlice";
 export const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer,
-    student:studentSlice
+    student: studentSlice,
   },
   devTools: true,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),
 });
-
-

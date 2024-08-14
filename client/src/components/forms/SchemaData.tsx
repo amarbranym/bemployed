@@ -1,7 +1,7 @@
 
 interface FormData {
     name?: string;
-    type?: 'text' | 'date' | 'richtext' | 'select' | 'file' | "address" | "contact";
+    type?: 'text' | 'date' | 'textarea' | 'select' | 'file' | "address" | "contact" | "email";
     label?: string;
     rules?: {
         min_length?: number;
@@ -14,22 +14,26 @@ interface FormData {
     as?: string;
     rows?: string;
     insideField?: any
-    selectOption?: CountryCodeOptionSechma[]
+    option?: OptionSechma[]
 }
-export interface CountryCodeOptionSechma {
+export interface OptionSechma {
     value: string;
     label: string;
-    color?: string;
-    isFixed?: boolean;
-    isDisabled?: boolean;
 }
 
-export const CountryCodeOption: CountryCodeOptionSechma[] = [
+export const CountryCodeOption: OptionSechma[] = [
     { value: '+91', label: 'India(+91)' },
     { value: '+1', label: 'USA(+1)' },
     { value: '+91', label: 'UK(+44)' },
 ];
-export const personalData: FormData[] = [
+export const ContactTypeOptoin: OptionSechma[] = [
+    { value: "primary", label: "Primary" },
+    { value: "alternate", label: "Alternate" },
+    { value: "work", label: "Work" },
+    { value: "home", label: "Home" },
+
+];
+export const personalSchema: FormData[] = [
     {
         name: 'firstName',
         type: 'text',
@@ -58,7 +62,7 @@ export const personalData: FormData[] = [
     },
     {
         name: 'email',
-        type: 'text',
+        type: 'email',
         label: 'Email',
         rules: {
             min_length: 5,
@@ -83,19 +87,7 @@ export const personalData: FormData[] = [
         row: 1,
 
     },
-    {
-        name: 'street',
-        type: 'text',
-        label: 'Street',
-        rules: {
-            min_length: 5,
-            max_length: 80,
-        },
-        help: '',
-        cols: 6,
-        row: 1,
 
-    },
     {
         name: 'city',
         type: 'text',
@@ -118,22 +110,35 @@ export const personalData: FormData[] = [
             max_length: 80,
         },
         help: '',
-        cols: 12,
+        cols: 6,
         row: 1,
 
     },
+    {
+        name: 'street',
+        type: 'textarea',
+        label: 'Street',
+        rules: {
+            min_length: 5,
+            max_length: 80,
+        },
+        help: '',
+        cols: 12,
+        row: 1,
+        rows: "3"
 
+    },
 
 ];
 
 
-export const ContactData: FormData[] = [
+export const ContactSchema: FormData[] = [
 
     {
         name: 'contryCode',
-        type: 'text',
+        type: 'select',
         label: 'Country Code',
-        selectOption: CountryCodeOption,
+        option: CountryCodeOption,
         rules: {
             min_length: 5,
             max_length: 80,
@@ -158,8 +163,10 @@ export const ContactData: FormData[] = [
     },
     {
         name: 'contactType',
-        type: 'text',
+        type: 'select',
         label: 'Type',
+        option: ContactTypeOptoin,
+
         rules: {
             min_length: 5,
             max_length: 80,

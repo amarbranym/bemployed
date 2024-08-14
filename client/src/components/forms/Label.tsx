@@ -9,7 +9,7 @@ const FormLabel: React.FC<FormLabelProps> = ({ name, label }) => {
   return (
     <label
       htmlFor={name}
-      className="block text-[16px] font-medium text-[#000000]"
+      className="block text-sm font-medium leading-6 text-gray-900"
     >
       {label}
     </label>

@@ -1,4 +1,4 @@
-import Student from '@/components/forms/Student'
+import BranymForm from '@/components/forms/BranymForm'
 import { Container } from '@/components/layouts/Container'
 import React from 'react'
 
@@ -7,10 +7,8 @@ const page = () => {
 
     <Container >
       <div className='py-10'>
-
-        <Student/>
+        <BranymForm/>
       </div>
-      
     </Container>
   )
 }
