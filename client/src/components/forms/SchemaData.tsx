@@ -1,7 +1,10 @@
+import { useSelector } from "react-redux";
 
+// const { schools } = useSelector((state: any) => state.student);
+// console.log("school", schools)
 interface FormData {
     name?: string;
-    type?: 'text' | 'date' | 'textarea' | 'select' | 'file' | "address" | "contact" | "email";
+    type?: 'text' | 'date' | 'textarea' | 'select' | 'file' | "address" | "contact" | "email" | "number";
     label?: string;
     rules?: {
         min_length?: number;
@@ -30,6 +33,14 @@ export const ContactTypeOptoin: OptionSechma[] = [
     { value: "primary", label: "Primary" },
     { value: "alternate", label: "Alternate" },
     { value: "work", label: "Work" },
+    { value: "home", label: "Home" },
+
+];
+export const GenderOption: OptionSechma[] = [
+
+    { value: "male", label: "Male" },
+    { value: "female", label: "Female" },
+    { value: "other", label: "Work" },
     { value: "home", label: "Home" },
 
 ];
@@ -177,4 +188,107 @@ export const ContactSchema: FormData[] = [
 
     },
 
+]
+
+
+export const qualificationSchema: FormData[] = [
+    {
+        name: 'school',
+        type: 'select',
+        label: 'School',
+        option: CountryCodeOption,
+        rules: {
+            min_length: 5,
+            max_length: 80,
+        },
+        help: '',
+        cols: 6,
+        row: 1,
+
+    },
+    {
+        name: 'year',
+        type: 'select',
+        label: 'Year',
+        option: CountryCodeOption,
+        rules: {
+            min_length: 5,
+            max_length: 80,
+        },
+        help: '',
+        cols: 6,
+        row: 1,
+
+    },
+    {
+        name: 'qualification ',
+        type: 'select',
+        label: 'Qualification ',
+        option: CountryCodeOption,
+        rules: {
+            min_length: 5,
+            max_length: 80,
+        },
+        help: '',
+        cols: 6,
+        row: 1,
+
+    },
+    {
+        name: 'score ',
+        type: 'text',
+        label: 'Score ',
+        rules: {
+            min_length: 5,
+            max_length: 80,
+        },
+        help: '',
+        cols: 6,
+        row: 1,
+
+    },
+]
+
+
+export const experienceSchema: FormData[] = [
+    {
+        name: 'company',
+        type: 'select',
+        label: 'Company',
+        option: CountryCodeOption,
+        rules: {
+            min_length: 5,
+            max_length: 80,
+        },
+        help: '',
+        cols: 6,
+        row: 1,
+
+    },
+    {
+        name: 'designation',
+        type: 'select',
+        label: 'Designation',
+        option: CountryCodeOption,
+        rules: {
+            min_length: 5,
+            max_length: 80,
+        },
+        help: '',
+        cols: 6,
+        row: 1,
+
+    },
+    {
+        name: 'duration',
+        type: 'number',
+        label: 'Duration',
+        rules: {
+            min_length: 5,
+            max_length: 80,
+        },
+        help: '',
+        cols: 6,
+        row: 1,
+    },
 ]

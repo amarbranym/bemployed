@@ -1,5 +1,6 @@
 import { apiSlice } from "../api/apiSlice";
 import { toast } from "react-hot-toast";
+import { setSchool } from "./studentSlice";
 
 export const studentApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -19,14 +20,22 @@ export const studentApi = apiSlice.injectEndpoints({
       //     }
       //   },
     }),
-    getCities: builder.query({
+    loadSchool: builder.query({
       query: () => ({
-        url: `cities?populate=*`,
+        url: `schools`,
         method: "GET",
         credentials: "include" as const,
       }),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          dispatch(setSchool(result?.data?.data));
+        } catch (error: any) {
+          toast.error("falid");
+        }
+      },
     }),
   }),
 });
 
-export const { useGetStudentQuery, useGetCitiesQuery } = studentApi;
+export const { useGetStudentQuery, useLoadSchoolQuery } = studentApi;

@@ -15,7 +15,7 @@ interface RepeatableFormProps {
     formValue: any; // Can be a more specific type if you know the structure
     setFormValue: React.Dispatch<React.SetStateAction<any>>; // Can be more specific with a known structure
     fieldsSchema: any;
-  }
+}
 
 const RepeatableForm: React.FC<RepeatableFormProps> = ({ formName, formValue, setFormValue, fieldsSchema }) => {
 
