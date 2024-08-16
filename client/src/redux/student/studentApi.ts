@@ -20,14 +20,27 @@ export const studentApi = apiSlice.injectEndpoints({
       //   },
     }),
     getOptions: builder.query({
-      query: (params:{searchValue:string, model:string}) => ({
+      query: (params: { searchValue: string; model: string }) => ({
         url: `${params.model}?_q=${params.searchValue}`,
         method: "GET",
         credentials: "include" as const,
       }),
-  
-    })
+    }),
+    createNewEntry: builder.mutation({
+      query: (params: { data: any; model: string }) => ({
+        url: `${params.model}`,
+        method: "POST",
+        credentials: "include" as const,
+        body: {
+          data: params.data,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetStudentQuery, useGetOptionsQuery } = studentApi;
+export const {
+  useGetStudentQuery,
+  useGetOptionsQuery,
+  useCreateNewEntryMutation,
+} = studentApi;

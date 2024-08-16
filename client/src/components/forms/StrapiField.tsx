@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { useSelector } from 'react-redux';
-import { useGetOptionsQuery } from '@/redux/student/studentApi';
+import { useCreateNewEntryMutation, useGetOptionsQuery } from '@/redux/student/studentApi';
 
 
 const StrapiField = ({ ...props }) => {
@@ -11,7 +11,7 @@ const StrapiField = ({ ...props }) => {
     const [selectedValue, setSelectedValue] = useState<any>(null);
     const [values, setValues] = useState<any>(null)
     const { data, refetch } = useGetOptionsQuery({ searchValue, model: props.rules.model }, { refetchOnMountOrArgChange: true });
-
+    const [createNewEntry, { isLoading }] = useCreateNewEntryMutation()
     async function transformData(optionData: any) {
         return optionData && optionData?.map((item: any) => ({
             label: item.attributes[props.rules.field],
@@ -65,7 +65,15 @@ const StrapiField = ({ ...props }) => {
         setSearchValue(option?.label);
         setShowMenu(!showMenu)
     };
-
+    const handleSave = async () => {
+        const mutaionData = {
+            data: {
+                [props.rules.field]: searchValue
+            },
+            model: props.rules.model
+        }
+        await createNewEntry(mutaionData)
+    }
     return (
         <div ref={inputRef} className=' relative '>
             <div className="relative  rounded-md shadow-sm" onClick={handleInputClick} >
@@ -90,7 +98,7 @@ const StrapiField = ({ ...props }) => {
                             <li key={index + 1} onClick={() => onItemClick(item)} className={` hover:bg-gray-100 cursor-pointer block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 ${isSelected(item) && "bg-gray-100"}`}>{item.label}</li>
 
                         )) :
-                            <li className=" text-center  cursor-pointer block px-4 py-8 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"><button className='text-blue-400 py-1 px-4 border  border-blue-300 rounded-md '>add this item</button></li>
+                            <li onClick={handleSave} className=" text-center  cursor-pointer block px-4 py-8 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"><button className='text-blue-400 py-1 px-4 border  border-blue-300 rounded-md '>add this item</button></li>
                     }
 
                 </ul>
