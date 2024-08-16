@@ -4,8 +4,7 @@ import FormFields from './FormField';
 import { useSelector } from 'react-redux';
 
 const BasicForm = ({ fieldsSchema }: any) => {
-    const { schools } = useSelector((state: any) => state.student);
-    console.log("school", schools)
+
     const initialValues: { [key: string]: string } = {};
 
     fieldsSchema.forEach((field: any) => {

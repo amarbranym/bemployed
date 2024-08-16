@@ -9,6 +9,7 @@ import FormField from './FormField';
 import DeleteIcons from '../icons/DeleteIcons';
 import Button from '../ui/Button';
 import PlusIcon from '../icons/PlusIcon';
+import { EyeIcon } from '@heroicons/react/20/solid'
 
 interface RepeatableFormProps {
     formName: string;
@@ -57,7 +58,7 @@ const RepeatableForm: React.FC<RepeatableFormProps> = ({ formName, formValue, se
     }, [])
 
     return (
-        <div className='border mt-4 rounded-md px-6'>
+        <div className='border  rounded-md px-6'>
             <div className='py-4 text-xl'>
                 <h1>{formName}</h1>
             </div>
@@ -65,13 +66,13 @@ const RepeatableForm: React.FC<RepeatableFormProps> = ({ formName, formValue, se
             <div className='flex flex-col gap-2   '>
                 {formValue.map((edu: any) => (
                     <div key={edu.id}>
-                        <Accordion expanded={expanded === edu.id} onChange={handleChange(edu.id)} sx={{ boxShadow: "none", paddingY: "0px", border: "1px solid black" }}>
+                        <Accordion expanded={expanded === edu.id} onChange={handleChange(edu.id)} sx={{ boxShadow: "none", paddingY: "0px", border: "1px solid #dcd8d8" }}>
                             <AccordionSummary sx={{ borderRadius: "10px", display: expanded === edu.id ? "none" : "flex", justifyContent: "space-between", alignItems: "center" }} >
 
                                 <h4 className=' w-full text-lg  block '>
                                     {edu?.values.number || edu?.values.countryCode || edu?.values.Type}
                                 </h4>
-                                {/* <AiFillEye className='h-8 w-6 ' /> */}
+                                <EyeIcon className='size-6 ' />
 
                             </AccordionSummary>
                             <AccordionDetails>
@@ -90,10 +91,10 @@ const RepeatableForm: React.FC<RepeatableFormProps> = ({ formName, formValue, se
                                                     Save
                                                 </Button>
                                             </div>
-                                            <Button type='button' onClick={() => removeForm(edu.id)}>
+                                            <button type='button' onClick={() => removeForm(edu.id)}>
                                                 <DeleteIcons className='size-6' />
 
-                                            </Button>
+                                            </button>
                                         </div>
                                     </Form>
                                 </Formik>
@@ -103,9 +104,9 @@ const RepeatableForm: React.FC<RepeatableFormProps> = ({ formName, formValue, se
                 ))}
             </div>
             <div className='py-2 '>
-                <Button type='button' className="!flex items-center mx-auto" onClick={addForm}>
-                    <PlusIcon className="size-6" /> Professional Experience
-                </Button>
+                <button type='button' className=" py-2 !flex gap-1 items-center mx-auto text-blue-400" onClick={addForm}>
+                    <PlusIcon className="size-6" /> add {formName}
+                </button>
             </div>
         </div>
     );

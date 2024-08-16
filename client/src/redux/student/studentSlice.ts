@@ -1,8 +1,8 @@
+import { qualificationSchema } from "@/components/forms/SchemaData";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   contacts: [],
-  schools: [],
 };
 
 const studentSlice = createSlice({
@@ -12,12 +12,9 @@ const studentSlice = createSlice({
     setContact: (state, action: PayloadAction<any>) => {
       state.contacts = action.payload;
     },
-    setSchool: (state, action: PayloadAction<any>) => {
-      state.schools = action.payload;
-    },
   },
 });
 
-export const { setContact , setSchool} = studentSlice.actions;
+export const { setContact } = studentSlice.actions;
 
 export default studentSlice.reducer;

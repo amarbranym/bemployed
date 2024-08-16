@@ -14,10 +14,6 @@ export const store = configureStore({
     getDefaultMiddleware().concat(apiSlice.middleware),
 });
 
-const initializeApp = async () => {
-  await store.dispatch(
-    studentApi.endpoints.loadSchool.initiate({}, { forceRefetch: true })
-  );
-};
 
-initializeApp();
+
+// initializeApp();

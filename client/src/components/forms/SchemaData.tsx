@@ -1,29 +1,44 @@
-import { useSelector } from "react-redux";
+import moment from 'moment';
 
-// const { schools } = useSelector((state: any) => state.student);
-// console.log("school", schools)
 interface FormData {
     name?: string;
-    type?: 'text' | 'date' | 'textarea' | 'select' | 'file' | "address" | "contact" | "email" | "number";
+    type?: 'text' | 'date' | 'textarea' | 'select' | 'file' | "address" | "contact" | "email" | "number" | "ref:strapi";
     label?: string;
     rules?: {
         min_length?: number;
         max_length?: number;
+        model?: string;
+        field?: string;
+        options?: { label: string; value: string }[];
     };
     help?: string;
     cols?: number;
     row?: number;
-    options?: { key: string; value: string }[];
     as?: string;
     rows?: string;
     insideField?: any
-    option?: OptionSechma[]
 }
 export interface OptionSechma {
     value: string;
     label: string;
 }
+const startYear = 2000;
+const currentYear = moment().year(); // Fetches the current year
+const yearOptions: OptionSechma[] = [];
 
+for (let year = startYear; year <= currentYear; year++) {
+    yearOptions.push({ label: ` ${year.toString()}`, value: year.toString() });
+}
+const genderOptions: OptionSechma[] = [
+    { label: "Male", value: "male" },
+    { label: "Female", value: "female" },
+    { label: "Other", value: "other" }
+];
+const maritalStatusOptions: OptionSechma[] = [
+    { label: "Unmarried", value: "unmarried" },
+    { label: "Married", value: "married" },
+    { label: "Divorced", value: "divorced" },
+];
 export const CountryCodeOption: OptionSechma[] = [
     { value: '+91', label: 'India(+91)' },
     { value: '+1', label: 'USA(+1)' },
@@ -45,6 +60,18 @@ export const GenderOption: OptionSechma[] = [
 
 ];
 export const personalSchema: FormData[] = [
+    // {
+    //     name: 'profile',
+    //     type: 'file',
+    //     label: 'Profile',
+    //     rules: {
+    //         min_length: 5,
+    //         max_length: 80,
+    //     },
+    //     help: '',
+    //     cols: 12,
+    //     row: 2,
+    // },
     {
         name: 'firstName',
         type: 'text',
@@ -149,10 +176,8 @@ export const ContactSchema: FormData[] = [
         name: 'contryCode',
         type: 'select',
         label: 'Country Code',
-        option: CountryCodeOption,
         rules: {
-            min_length: 5,
-            max_length: 80,
+            options: CountryCodeOption,
         },
         help: '',
         cols: 6,
@@ -176,11 +201,10 @@ export const ContactSchema: FormData[] = [
         name: 'contactType',
         type: 'select',
         label: 'Type',
-        option: ContactTypeOptoin,
 
         rules: {
-            min_length: 5,
-            max_length: 80,
+            options: ContactTypeOptoin,
+
         },
         help: '',
         cols: 12,
@@ -194,12 +218,11 @@ export const ContactSchema: FormData[] = [
 export const qualificationSchema: FormData[] = [
     {
         name: 'school',
-        type: 'select',
+        type: 'ref:strapi',
         label: 'School',
-        option: CountryCodeOption,
         rules: {
-            min_length: 5,
-            max_length: 80,
+            model: "schools",
+            field: "Name",
         },
         help: '',
         cols: 6,
@@ -210,10 +233,8 @@ export const qualificationSchema: FormData[] = [
         name: 'year',
         type: 'select',
         label: 'Year',
-        option: CountryCodeOption,
         rules: {
-            min_length: 5,
-            max_length: 80,
+            options: yearOptions,
         },
         help: '',
         cols: 6,
@@ -222,12 +243,11 @@ export const qualificationSchema: FormData[] = [
     },
     {
         name: 'qualification ',
-        type: 'select',
+        type: 'ref:strapi',
         label: 'Qualification ',
-        option: CountryCodeOption,
         rules: {
-            min_length: 5,
-            max_length: 80,
+            model: "qualifications",
+            field: "Name",
         },
         help: '',
         cols: 6,
@@ -253,12 +273,11 @@ export const qualificationSchema: FormData[] = [
 export const experienceSchema: FormData[] = [
     {
         name: 'company',
-        type: 'select',
+        type: 'ref:strapi',
         label: 'Company',
-        option: CountryCodeOption,
         rules: {
-            min_length: 5,
-            max_length: 80,
+            model: "companies",
+            field: "Name"
         },
         help: '',
         cols: 6,
@@ -267,12 +286,11 @@ export const experienceSchema: FormData[] = [
     },
     {
         name: 'designation',
-        type: 'select',
+        type: 'ref:strapi',
         label: 'Designation',
-        option: CountryCodeOption,
         rules: {
-            min_length: 5,
-            max_length: 80,
+            model: "designations",
+            field: "Name"
         },
         help: '',
         cols: 6,
@@ -286,6 +304,70 @@ export const experienceSchema: FormData[] = [
         rules: {
             min_length: 5,
             max_length: 80,
+        },
+        help: '',
+        cols: 6,
+        row: 1,
+    },
+]
+
+
+export const otherDetails: FormData[] = [
+    {
+        name: 'skill',
+        type: 'ref:strapi',
+        label: 'Skills',
+        rules: {
+            model: "skills",
+            field: "name"
+        },
+        help: '',
+        cols: 6,
+        row: 1,
+
+    },
+    {
+        name: 'industry',
+        type: 'ref:strapi',
+        label: 'Industry',
+        rules: {
+            model: "industries",
+            field: "Name"
+        },
+        help: '',
+        cols: 6,
+        row: 1,
+
+    },
+    {
+        name: 'dob',
+        type: 'text',
+        label: 'DOB',
+        rules: {
+            min_length: 5,
+            max_length: 80,
+        },
+        help: '',
+        cols: 6,
+        row: 1,
+    },
+    {
+        name: 'gender',
+        type: 'select',
+        label: 'Gender',
+        rules: {
+            options: genderOptions
+        },
+        help: '',
+        cols: 6,
+        row: 1,
+    },
+    {
+        name: 'maritalStatus',
+        type: 'select',
+        label: 'Marital Status',
+        rules: {
+            options: maritalStatusOptions
         },
         help: '',
         cols: 6,

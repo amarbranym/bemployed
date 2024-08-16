@@ -2,52 +2,68 @@
 import React from "react";
 import { Field, useField } from "formik";
 import { EnvelopeIcon } from "@heroicons/react/16/solid";
+import StrapiField from "./StrapiField";
+import SelectField from "./SelectField";
+import ImportFile from "./ImportFileField";
 
 const Form_Input = ({ ...props }) => {
   const [field] = useField(props.name);
   return (
     <>
-      {["text","number"].includes(props.type) && <Field
+
+      {["text", "number"].includes(props.type) && <Field
         {...field}
         {...props}
-        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400  focus:outline-none  disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 disabled:ring-gray-200 sm:text-sm sm:leading-6 px-4"
+        className="input-text"
       />}
-      {["email"].includes(props.type) && <div className="relative  rounded-md shadow-sm">
-        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-          <EnvelopeIcon aria-hidden="true" className="h-5 w-5 text-gray-400" />
-        </div>
-        <Field
-          {...field}
-          {...props}
-          placeholder="you@example.com"
-          className="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none sm:text-sm sm:leading-6 px-4"
-        />
-      </div>}
+
+      {["email"].includes(props.type) && (
+        <div className="relative  rounded-md shadow-sm">
+          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+            <EnvelopeIcon aria-hidden="true" className="h-5 w-5 text-gray-400" />
+          </div>
+          <Field
+            {...field}
+            {...props}
+            placeholder="you@example.com"
+            className="input-email"
+          />
+        </div>)
+      }
+
+
+
       {
         ["textarea"].includes(props.type) && <textarea
           {...props}
           {...field}
-          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none sm:text-sm sm:leading-6 px-4"
-          defaultValue={''}
+          className="input-text"
         />
       }
+
+
       {
-        ["select"].includes(props.type) && (
-          <select
+        ["select"].includes(props.type) && <SelectField {...props} />
+
+      }
+
+
+      {
+        ["ref:strapi"].includes(props.type) && (
+          <StrapiField
             {
             ...props
             }
+          />
+        )
+      }
+      {
+        ["file"].includes(props.type) && (
+          <ImportFile
             {
-            ...field
+            ...props
             }
-            className=" block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300   sm:text-sm sm:leading-6"
-          >
-            {
-              props.option?.map((item: any) => (
-                <option key={item.value}>{item.label}</option>
-              ))
-            }
-          </select>
+          />
         )
       }
     </>
