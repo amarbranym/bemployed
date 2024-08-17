@@ -1,12 +1,12 @@
 "use client"
 import React, { useEffect } from 'react'
 import Page from '../layouts/Page'
-import { useGetStudentQuery } from '@/redux/student/studentApi'
 import Horizontalline from '../elements/HorizontalLine'
 import Button from '../ui/Button'
 import moment from 'moment';
 import Loader from '../ui/Loader'
 import DataNotFound from '../elements/DataNotFound'
+import { useGetStudentQuery } from '@/redux/api/apiSlice'
 
 const termsAndConditions = [
     "If a candidate is interested in applying for any job, they must submit their resume along with an ID Proof, Passport Size Photo, and a consultancy fee of Rs. 500/-.",

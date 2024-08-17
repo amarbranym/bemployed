@@ -25,26 +25,30 @@ export interface OptionSechma {
 const startYear = 2000;
 const currentYear = moment().year(); // Fetches the current year
 const yearOptions: OptionSechma[] = [];
-
+yearOptions.push({ label: "Choose here", value: "" });
 for (let year = startYear; year <= currentYear; year++) {
     yearOptions.push({ label: ` ${year.toString()}`, value: year.toString() });
 }
 const genderOptions: OptionSechma[] = [
+    { label: "Choose here", value: "" },
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
     { label: "Other", value: "other" }
 ];
 const maritalStatusOptions: OptionSechma[] = [
+    { label: "Choose here", value: "" },
     { label: "Unmarried", value: "unmarried" },
     { label: "Married", value: "married" },
     { label: "Divorced", value: "divorced" },
 ];
 export const CountryCodeOption: OptionSechma[] = [
+    { label: "Choose here", value: "" },
     { value: '+91', label: 'India(+91)' },
     { value: '+1', label: 'USA(+1)' },
     { value: '+91', label: 'UK(+44)' },
 ];
 export const ContactTypeOptoin: OptionSechma[] = [
+    { label: "Choose here", value: "" },
     { value: "primary", label: "Primary" },
     { value: "alternate", label: "Alternate" },
     { value: "work", label: "Work" },
@@ -52,26 +56,31 @@ export const ContactTypeOptoin: OptionSechma[] = [
 
 ];
 export const GenderOption: OptionSechma[] = [
-
+    { label: "Choose here", value: "" },
     { value: "male", label: "Male" },
     { value: "female", label: "Female" },
     { value: "other", label: "Work" },
     { value: "home", label: "Home" },
 
 ];
+export const addressTypeOption: OptionSechma[] = [
+    { label: "Choose here", value: "" },
+    { value: "permanent", label: "Permanent" },
+    { value: "alternent", label: "Alternent" },
+];
 export const personalSchema: FormData[] = [
-    // {
-    //     name: 'profile',
-    //     type: 'file',
-    //     label: 'Profile',
-    //     rules: {
-    //         min_length: 5,
-    //         max_length: 80,
-    //     },
-    //     help: '',
-    //     cols: 12,
-    //     row: 2,
-    // },
+    {
+        name: 'profile',
+        type: 'file',
+        label: 'Profile',
+        rules: {
+            min_length: 5,
+            max_length: 80,
+        },
+        help: '',
+        cols: 12,
+        row: 2,
+    },
     {
         name: 'firstName',
         type: 'text',
@@ -128,11 +137,11 @@ export const personalSchema: FormData[] = [
 
     {
         name: 'city',
-        type: 'text',
+        type: 'ref:strapi',
         label: 'City',
         rules: {
-            min_length: 5,
-            max_length: 80,
+            model: "cities",
+            field: "Name"
         },
         help: '',
         cols: 6,
@@ -141,11 +150,10 @@ export const personalSchema: FormData[] = [
     },
     {
         name: 'addressType',
-        type: 'text',
+        type: 'select',
         label: 'Address Type',
         rules: {
-            min_length: 5,
-            max_length: 80,
+            options: addressTypeOption
         },
         help: '',
         cols: 6,
@@ -312,7 +320,7 @@ export const experienceSchema: FormData[] = [
 ]
 
 
-export const otherDetails: FormData[] = [
+export const otherDetailSchema: FormData[] = [
     {
         name: 'skill',
         type: 'ref:strapi',
@@ -373,4 +381,33 @@ export const otherDetails: FormData[] = [
         cols: 6,
         row: 1,
     },
+]
+
+
+export const documentSchema: FormData[] = [
+    {
+        name: 'front',
+        type: 'file',
+        label: 'Front',
+        rules: {
+            min_length: 5,
+            max_length: 80,
+        },
+        help: '',
+        cols: 6,
+        row: 2,
+    },
+    {
+        name: 'back',
+        type: 'file',
+        label: 'Back',
+        rules: {
+            min_length: 5,
+            max_length: 80,
+        },
+        help: '',
+        cols: 6,
+        row: 2,
+    },
+
 ]

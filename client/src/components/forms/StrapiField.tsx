@@ -1,24 +1,27 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { useSelector } from 'react-redux';
-import { useCreateNewEntryMutation, useGetOptionsQuery } from '@/redux/student/studentApi';
+import Button from '../ui/Button';
+import { toast } from "react-hot-toast";
+import { useCreateNewEntryMutation, useGetOptionsQuery } from '@/redux/api/apiSlice';
+import { useField, useFormikContext } from 'formik';
 
 
 const StrapiField = ({ ...props }) => {
-    // const [field] = useField(props?.name);
+    const { setFieldValue } = useFormikContext<any>();
+
     const [showMenu, setShowMenu] = useState<boolean>(false)
     const [searchValue, setSearchValue] = useState<any>("");
     const [selectedValue, setSelectedValue] = useState<any>(null);
     const [values, setValues] = useState<any>(null)
     const { data, refetch } = useGetOptionsQuery({ searchValue, model: props.rules.model }, { refetchOnMountOrArgChange: true });
-    const [createNewEntry, { isLoading }] = useCreateNewEntryMutation()
+    const [createNewEntry, { isLoading, isSuccess }] = useCreateNewEntryMutation();
+
     async function transformData(optionData: any) {
         return optionData && optionData?.map((item: any) => ({
             label: item.attributes[props.rules.field],
             value: item.attributes[props.rules.field]
         }));
     }
-
     async function getOptions() {
         const options = await transformData(data?.data);
         return options;
@@ -28,7 +31,16 @@ const StrapiField = ({ ...props }) => {
         getOptions().then((option: any) => {
             setValues(option)
         });
-    }, [data])
+        if (isSuccess) {
+            toast.success(`${props.rules.model} create successfully!`)
+        }
+
+        if (selectedValue || searchValue) {
+            const optionValue = selectedValue.value || searchValue
+            setFieldValue(props.name, optionValue)
+
+        }
+    }, [data, isSuccess, searchValue, selectedValue])
 
 
 
@@ -78,9 +90,7 @@ const StrapiField = ({ ...props }) => {
         <div ref={inputRef} className=' relative '>
             <div className="relative  rounded-md shadow-sm" onClick={handleInputClick} >
                 <input
-                    // {...field}
                     name={props.name}
-
                     type="text"
                     onChange={(e: any) => setSearchValue(e.target.value)}
                     value={searchValue}
@@ -98,7 +108,9 @@ const StrapiField = ({ ...props }) => {
                             <li key={index + 1} onClick={() => onItemClick(item)} className={` hover:bg-gray-100 cursor-pointer block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 ${isSelected(item) && "bg-gray-100"}`}>{item.label}</li>
 
                         )) :
-                            <li onClick={handleSave} className=" text-center  cursor-pointer block px-4 py-8 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"><button className='text-blue-400 py-1 px-4 border  border-blue-300 rounded-md '>add this item</button></li>
+                            <li onClick={handleSave} className=" text-center  cursor-pointer block px-4 py-8 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900">
+                                <Button size='md' bg='white' type='button' loading={isLoading} >add item</Button>
+                            </li>
                     }
 
                 </ul>

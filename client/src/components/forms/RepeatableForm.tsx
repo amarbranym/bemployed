@@ -18,7 +18,7 @@ interface RepeatableFormProps {
     fieldsSchema: any;
 }
 
-const RepeatableForm: React.FC<RepeatableFormProps> = ({ formName, formValue, setFormValue, fieldsSchema }) => {
+const RepeatableForm: React.FC<RepeatableFormProps> = ({ formName, formValue = [], setFormValue, fieldsSchema }) => {
 
     const [expanded, setExpanded] = useState<string | false>();
 
@@ -38,7 +38,7 @@ const RepeatableForm: React.FC<RepeatableFormProps> = ({ formName, formValue, se
 
     const handleFormSubmit = (values: any, id: string) => {
 
-        setFormValue(formValue.map((edu: any) => {
+        setFormValue(formValue?.map((edu: any) => {
             if (edu.id === id) {
                 return { ...edu, values };
             }
@@ -64,13 +64,13 @@ const RepeatableForm: React.FC<RepeatableFormProps> = ({ formName, formValue, se
             </div>
 
             <div className='flex flex-col gap-2   '>
-                {formValue.map((edu: any) => (
+                {formValue?.map((edu: any, index: any) => (
                     <div key={edu.id}>
                         <Accordion expanded={expanded === edu.id} onChange={handleChange(edu.id)} sx={{ boxShadow: "none", paddingY: "0px", border: "1px solid #dcd8d8" }}>
                             <AccordionSummary sx={{ borderRadius: "10px", display: expanded === edu.id ? "none" : "flex", justifyContent: "space-between", alignItems: "center" }} >
 
-                                <h4 className=' w-full text-lg  block '>
-                                    {edu?.values.number || edu?.values.countryCode || edu?.values.Type}
+                                <h4 className=' w-full text-sm  block '>
+                                    <span className='mr-2'>{index + 1}.</span>   {edu?.id}
                                 </h4>
                                 <EyeIcon className='size-6 ' />
 
@@ -87,7 +87,7 @@ const RepeatableForm: React.FC<RepeatableFormProps> = ({ formName, formValue, se
                                         ))}
                                         <div className=' col-span-12 flex justify-between  '>
                                             <div>
-                                                <Button type='submit' className=" block" >
+                                                <Button type='submit' bg='solid' size='sm'  >
                                                     Save
                                                 </Button>
                                             </div>
