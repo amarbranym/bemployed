@@ -10,8 +10,14 @@ const StrapiField = ({ ...props }) => {
     const { setFieldValue } = useFormikContext<any>();
     const [showMenu, setShowMenu] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useState<string>("");
-    const [selectedValue, setSelectedValue] = useState<any>(props?.rules?.isMulti ? [] : null);
+    const [selectedValue, setSelectedValue] = useState<any>(props?.multiple ? [] : null);
     const [values, setValues] = useState<any[]>([]);
+
+    useEffect(() => {
+
+        setFieldValue(props.name, props?.multiple ? [] : null)
+
+    }, [])
 
     const { data, refetch } = useGetOptionsQuery(
         { searchValue, model: props.rules.model },
@@ -37,12 +43,14 @@ const StrapiField = ({ ...props }) => {
     }, [isSuccess, refetch, props.rules.model]);
 
     useEffect(() => {
-        if (selectedValue) {
-            setFieldValue(props.name, props?.rules?.isMulti ? selectedValue.map((val: any) => val.value) : selectedValue.value);
-        } else if (searchValue) {
-            setFieldValue(props.name, searchValue);
+        if (props?.multiple) {
+            setFieldValue(props.name, selectedValue.length ? selectedValue.map((val: any) => val) : []);
         }
-    }, [selectedValue, searchValue, setFieldValue, props.name, props.rules.isMulti]);
+        else{
+            setFieldValue(props.name, selectedValue)
+        }
+
+    }, [selectedValue,  setFieldValue, props.name, props.multiple]);
 
     const inputRef = useRef<any>(null);
 
@@ -65,15 +73,15 @@ const StrapiField = ({ ...props }) => {
 
     const isSelected = (option: any) => {
         if (!selectedValue) return false;
-        return props?.rules?.isMulti
+        return props?.multiple
             ? selectedValue.some((val: any) => val.value === option.value)
             : selectedValue.value === option.value;
     };
 
     const onItemClick = (option: any) => {
         let newValue;
-        if (props?.rules?.isMulti) {
-            if (selectedValue.some((val: any) => val.value === option.value)) {
+        if (props?.multiple) {
+            if (selectedValue.some((val: any) => val.id === option.id)) {
                 setShowMenu(false)
                 return; // Do nothing if the option is already selected
             } else {
@@ -83,7 +91,7 @@ const StrapiField = ({ ...props }) => {
             newValue = option;
         }
         setSelectedValue(newValue);
-        setSearchValue(props?.rules?.isMulti ? "" : option.label);
+        setSearchValue(props?.multiple ? "" : option.label);
         setShowMenu(false);
     };
 
@@ -99,11 +107,10 @@ const StrapiField = ({ ...props }) => {
         });
     };
 
-    console.log("data", values)
     return (
         <div ref={inputRef} className=' relative '>
             {
-                props?.rules?.isMulti && (
+                props?.multiple && (
                     <div className='flex gap-2 mb-2 flex-wrap'>
                         {
                             selectedValue.map((tag: any, index: any) => (

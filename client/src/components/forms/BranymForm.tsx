@@ -1,21 +1,16 @@
 "use client"
 import React, { useState } from 'react';
-import { personalSchema, ContactSchema, qualificationSchema, experienceSchema, otherDetailSchema, documentSchema } from "./SchemaData"
+import { personalSchema, ContactSchema, qualificationSchema, experienceSchema, otherDetailSchema, documentSchema, FormData, AddressSchema } from "./SchemaData"
 import RepeatableForm from './RepeatableForm';
 import BasicForm from './BasicForm';
 import Button from '../ui/Button';
 import { useCreateNewStudentMutation } from '@/redux/api/apiSlice';
+import { connect } from 'http2';
 
 
-const BranymForm = () => {
+const BranymForm = ({fields, onSubmit}:any) => {
     const [data, setData] = useState<any>({})
     const [createNewStudent] = useCreateNewStudentMutation()
-    // const [contact, setContact] = useState<any>([]);
-    // const [qualification, setQualification] = useState<any>([]);
-    // const [experience, setExperience] = useState<any>([]);
-    // const [personalDetails, setPersonalDetails] = useState<any>(null);
-    // const [otherdetails, setOtherdetails] = useState<any>(null)
-    // const [docuements, setDocuments] = useState<any>(null)
 
     const formView = [
         {
@@ -24,17 +19,22 @@ const BranymForm = () => {
             name: "personalDetails"
         },
         {
-            type: "Repeatable",
+            type: "Component",
+            schema: AddressSchema,
+            name: "address"
+        },
+        {
+            type: "RepeatableComponent",
             schema: ContactSchema,
             name: "Contact"
         },
         {
-            type: "Repeatable",
+            type: "RepeatableComponent",
             schema: experienceSchema,
             name: "Experience"
         },
         {
-            type: "Repeatable",
+            type: "RepeatableComponent",
             schema: qualificationSchema,
             name: "Qualification"
         },
@@ -53,16 +53,108 @@ const BranymForm = () => {
     }
 
 
-    const handleSubmit = async() => {
-        const submissionData = {
-            ...data.personalDetails,
-            Contacts: data.Contact || [],
-            Experiences: data.Experience || [],
-            qualifications: data.Qualification || [],
-            ...data.otherDetails,
-            Documents: []
-        };
-        await createNewStudent(submissionData)
+    const handleSubmit = async () => {
+
+
+        const transformData = (schema:FormData[], name:string, data:any) => {
+            const obj:any = {}
+
+            for (let index = 0; index < schema.length; index++) {
+                const field:FormData = schema[index];
+                if(Object.hasOwn(data || {}, field?.name)){
+                    if(field.type === "ref:strapi"){
+                        if(field?.multiple){
+                            obj[`${field.name}`] = {
+                                connect: data[`${field.name}`]?.map((value:any) => ({id: value["id"]}))
+                            }
+                        }
+                        else{
+                            obj[`${field.name}`] = {
+                                connect: [{id:  data[`${field.name}`].id }]
+                            }
+                        }
+                    }
+                    else{
+                        obj[`${field.name}`] =  data[`${field.name}`]
+                    }
+                }
+                else{
+                    
+                }
+            }
+
+            return obj;
+        }
+
+        var submissionData:any = {}
+
+        formView.map((value:any, index:number) => {
+            const {schema = [], name = "", type}:{schema?: FormData[], type?: string, name?:string} = value
+            if(type === "RepeatableComponent"){
+                var newArr:any[] = []
+                data[name]?.map((value:any) => {
+                    newArr.push(transformData(schema, name, Object.hasOwn(value, "values") ? value["values"] : {}))
+                })
+                submissionData[name] = newArr
+            }
+            else if(type === "Component"){
+                submissionData[name] = transformData(schema, name, data[name])
+            }
+            else if(type === "Basic"){
+                submissionData = {...submissionData, ...transformData(schema, name, data[name])}
+            }
+        })
+
+
+        // const submissionData = {
+        //     FirstName: data?.personalDetails?.FirstName || "",
+        //     LastName: data?.personalDetails?.LastName || "",
+        //     Email: data?.personalDetails?.Email || "",
+        //     FatherName: data?.personalDetails?.FatherName || "",
+        //     DOB: data?.otherDetails?.DOB || "",
+        //     Gender: data?.otherDetails?.Gender || "",
+        //     MaritalStatus: data?.otherDetails?.MaritalStatus || "",
+        //     Skills: {
+        //         connect: data?.otherDetails?.Skills ? data?.otherDetails?.Skills?.map((skill: any) => ({ id: skill.id })) : []
+        //     },
+        //     IndustriesPreference: {
+        //         connect: data?.otherDetails?.IndustriesPerference ? data?.otherDetails?.IndustriesPerference?.map((industry: any) => ({ id: industry.id })) : []
+        //     },
+        //     Address: {
+        //         City: {
+        //             connect: [{ id: data?.personalDetails?.City?.id || null }]
+        //         },
+        //         Street: data?.personalDetails?.Street || "",
+        //         AddressType: data?.personalDetails?.addressType || ""
+        //     },
+        //     Contacts: data?.Contact ? data?.Contact.map((contact: any) => ({
+        //         ...contact.values
+        //     })) : [],
+        //     qualification: data?.Qualification ? data?.Qualification.map((item: any) => ({
+        //         school: {
+        //             connect: [{ id: item?.values?.school?.id || null }]
+        //         },
+        //         qualification: {
+        //             connect: [{ id: item?.values?.qualification?.id || null }]
+        //         },
+        //         Score: item.values.score || "",
+        //         Year: item.values.year || ""
+        //     })) : [],
+        //     experience: data?.Experience ? data?.Experience.map((item: any) => ({
+        //         Company: {
+        //             connect: [{ id: item?.values?.company.id || null }]
+        //         },
+        //         Designation: {
+        //             connect: [{ id: item?.values?.designation?.id || null }]
+        //         },
+        //         Duration: item?.values?.duration || 0
+        //     })) : []
+        // };
+
+        console.log("data",submissionData);
+
+
+        // await createNewStudent(submissionData)
     }
 
     return (
@@ -70,7 +162,7 @@ const BranymForm = () => {
 
             {formView.map((formConfig, index) => (
                 <div key={index}>
-                    {formConfig.type === "Basic" && (
+                    {["Basic", "Component"].includes(formConfig.type) && (
                         <BasicForm
                             fieldsSchema={formConfig.schema}
                             formValue={data[formConfig.name]}
@@ -78,7 +170,7 @@ const BranymForm = () => {
                         />
                     )}
 
-                    {formConfig.type === "Repeatable" &&
+                    {formConfig.type === "RepeatableComponent" &&
                         (
                             <RepeatableForm
                                 formName={formConfig.name}

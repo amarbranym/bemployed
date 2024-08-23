@@ -127,7 +127,6 @@ const CustomSelect = ({ placeHolder, options, isMulti, isSearchable, onChange, a
                 option.label.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0
         );
     };
-    console.log("data", selectedValue)
 
     return (
         <div className="custom--dropdown-container">

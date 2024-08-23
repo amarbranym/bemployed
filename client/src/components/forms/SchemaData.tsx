@@ -1,7 +1,7 @@
 import moment from 'moment';
 
-interface FormData {
-    name?: string;
+export interface FormData {
+    name: string;
     type?: 'text' | 'date' | 'textarea' | 'select' | 'file' | "address" | "contact" | "email" | "number" | "ref:strapi";
     label?: string;
     rules?: {
@@ -10,14 +10,15 @@ interface FormData {
         model?: string;
         field?: string;
         options?: { label: string; value: string }[];
-        isMulti?:boolean
     };
+    multiple?: boolean,
     help?: string;
     cols?: number;
     row?: number;
     as?: string;
     rows?: string;
-    insideField?: any
+    insideField?: any;
+    required?:boolean
 }
 export interface OptionSechma {
     value: string;
@@ -70,22 +71,23 @@ export const addressTypeOption: OptionSechma[] = [
     { value: "alternent", label: "Alternent" },
 ];
 export const personalSchema: FormData[] = [
-    {
-        name: 'Profile',
-        type: 'file',
-        label: 'Profile',
-        rules: {
-            min_length: 5,
-            max_length: 80,
-        },
-        help: '',
-        cols: 12,
-        row: 2,
-    },
+    // {
+    //     name: 'Profile',
+    //     type: 'file',
+    //     label: 'Profile',
+    //     rules: {
+    //         min_length: 5,
+    //         max_length: 80,
+    //     },
+    //     help: '',
+    //     cols: 12,
+    //     row: 2,
+    // },
     {
         name: 'FirstName',
         type: 'text',
         label: 'First Name',
+        required:true,
         rules: {
             min_length: 5,
             max_length: 80,
@@ -119,7 +121,6 @@ export const personalSchema: FormData[] = [
         help: '',
         cols: 6,
         row: 1,
-
     },
 
     {
@@ -133,9 +134,11 @@ export const personalSchema: FormData[] = [
         help: '',
         cols: 6,
         row: 1,
-
     },
 
+];
+
+export const AddressSchema: FormData[] = [
     {
         name: 'City',
         type: 'ref:strapi',
@@ -143,13 +146,10 @@ export const personalSchema: FormData[] = [
         rules: {
             model: "cities",
             field: "Name",
-            isMulti:false,
-
         },
         help: '',
         cols: 6,
         row: 1,
-
     },
     {
         name: 'addressType',
@@ -161,7 +161,6 @@ export const personalSchema: FormData[] = [
         help: '',
         cols: 6,
         row: 1,
-
     },
     {
         name: 'Street',
@@ -175,16 +174,14 @@ export const personalSchema: FormData[] = [
         cols: 12,
         row: 1,
         rows: "3"
-
-    },
-
-];
+    }
+]
 
 
 export const ContactSchema: FormData[] = [
 
     {
-        name: 'contryCode',
+        name: 'CountryCode',
         type: 'select',
         label: 'Country Code',
         rules: {
@@ -193,10 +190,9 @@ export const ContactSchema: FormData[] = [
         help: '',
         cols: 6,
         row: 1,
-
     },
     {
-        name: 'number',
+        name: 'Number',
         type: 'text',
         label: 'Number',
         rules: {
@@ -206,21 +202,18 @@ export const ContactSchema: FormData[] = [
         help: '',
         cols: 6,
         row: 1,
-
     },
     {
-        name: 'contactType',
+        name: 'Type',
         type: 'select',
         label: 'Type',
 
         rules: {
             options: ContactTypeOptoin,
-
         },
         help: '',
         cols: 12,
         row: 1,
-
     },
 
 ]
@@ -234,8 +227,6 @@ export const qualificationSchema: FormData[] = [
         rules: {
             model: "schools",
             field: "Name",
-            isMulti:false,
-
         },
         help: '',
         cols: 6,
@@ -243,7 +234,7 @@ export const qualificationSchema: FormData[] = [
 
     },
     {
-        name: 'year',
+        name: 'Year',
         type: 'select',
         label: 'Year',
         rules: {
@@ -252,22 +243,18 @@ export const qualificationSchema: FormData[] = [
         help: '',
         cols: 6,
         row: 1,
-
     },
     {
-        name: 'qualification ',
+        name: 'qualification',
         type: 'ref:strapi',
         label: 'Qualification ',
         rules: {
             model: "qualifications",
             field: "Name",
-            isMulti:false,
-
         },
         help: '',
         cols: 6,
         row: 1,
-
     },
     {
         name: 'score ',
@@ -280,7 +267,6 @@ export const qualificationSchema: FormData[] = [
         help: '',
         cols: 6,
         row: 1,
-
     },
 ]
 
@@ -293,13 +279,10 @@ export const experienceSchema: FormData[] = [
         rules: {
             model: "companies",
             field: "Name",
-            isMulti:false,
-
         },
         help: '',
         cols: 6,
         row: 1,
-
     },
     {
         name: 'designation',
@@ -312,8 +295,8 @@ export const experienceSchema: FormData[] = [
         help: '',
         cols: 6,
         row: 1,
-
     },
+
     {
         name: 'duration',
         type: 'number',
@@ -330,20 +313,7 @@ export const experienceSchema: FormData[] = [
 
 
 export const otherDetailSchema: FormData[] = [
-    {
-        name: 'Skills',
-        type: 'ref:strapi',
-        label: 'Skills',
-        rules: {
-            model: "skills",
-            field: "name",
-            isMulti:true,
-        },
-        help: '',
-        cols: 6,
-        row: 1,
-
-    },
+   
     {
         name: 'IndustriesPerference',
         type: 'ref:strapi',
@@ -351,13 +321,25 @@ export const otherDetailSchema: FormData[] = [
         rules: {
             model: "industries",
             field: "Name",
-            isMulti:true,
-
         },
+        multiple: true,
         help: '',
         cols: 6,
         row: 1,
 
+    },
+    {
+        name: 'Skills',
+        type: 'ref:strapi',
+        label: 'Skills',
+        rules: {
+            model: "skills",
+            field: "name",
+        },
+        multiple: true,
+        help: '',
+        cols: 6,
+        row: 1,
     },
     {
         name: 'DOB',
