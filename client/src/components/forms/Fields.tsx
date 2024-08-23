@@ -1,21 +1,26 @@
 "use client";
 import React from "react";
-import { Field, useField } from "formik";
+import { ErrorMessage, Field, useField } from "formik";
 import { EnvelopeIcon } from "@heroicons/react/16/solid";
 import StrapiField from "./StrapiField";
 import SelectField from "./SelectField";
 import ImportFile from "./ImportFileField";
 
 const Form_Input = ({ ...props }) => {
-  const [field] = useField(props.name);
+  const [field, meta] = useField(props.name);
   return (
     <>
 
-      {["text", "number"].includes(props.type) && <Field
+      {["text", "number"].includes(props.type) && (<><Field
         {...field}
         {...props}
         className="input-text"
-      />}
+      />
+        {
+          meta.touched && meta.error && <div className="text-red-500 text-sm mt-1">{meta.error}</div>
+        }</>)
+
+      }
 
       {["email"].includes(props.type) && (
         <div className="relative  rounded-md shadow-sm">
@@ -43,7 +48,9 @@ const Form_Input = ({ ...props }) => {
 
 
       {
-        ["select"].includes(props.type) && <SelectField {...props} />
+        ["select"].includes(props.type) && (<><SelectField {...props} /> {
+          meta.touched && meta.error && <div className="text-red-500 text-sm mt-1">{meta.error}</div>
+        } </>)
 
       }
 

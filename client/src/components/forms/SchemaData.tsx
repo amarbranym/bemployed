@@ -18,7 +18,7 @@ export interface FormData {
     as?: string;
     rows?: string;
     insideField?: any;
-    required?:boolean
+    required?: boolean
 }
 export interface OptionSechma {
     value: string;
@@ -87,7 +87,7 @@ export const personalSchema: FormData[] = [
         name: 'FirstName',
         type: 'text',
         label: 'First Name',
-        required:true,
+        required: true,
         rules: {
             min_length: 5,
             max_length: 80,
@@ -184,6 +184,7 @@ export const ContactSchema: FormData[] = [
         name: 'CountryCode',
         type: 'select',
         label: 'Country Code',
+        required: true,
         rules: {
             options: CountryCodeOption,
         },
@@ -193,7 +194,7 @@ export const ContactSchema: FormData[] = [
     },
     {
         name: 'Number',
-        type: 'text',
+        type: 'number',
         label: 'Number',
         rules: {
             min_length: 5,
@@ -313,7 +314,7 @@ export const experienceSchema: FormData[] = [
 
 
 export const otherDetailSchema: FormData[] = [
-   
+
     {
         name: 'IndustriesPerference',
         type: 'ref:strapi',
@@ -405,3 +406,40 @@ export const documentSchema: FormData[] = [
     },
 
 ]
+
+
+
+
+
+export const formView = [
+    {
+        type: "Basic",
+        schema: personalSchema,
+        name: "personalDetails"
+    },
+    {
+        type: "Component",
+        schema: AddressSchema,
+        name: "address"
+    },
+    {
+        type: "RepeatableComponent",
+        schema: ContactSchema,
+        name: "Contact"
+    },
+    {
+        type: "RepeatableComponent",
+        schema: experienceSchema,
+        name: "Experience"
+    },
+    {
+        type: "RepeatableComponent",
+        schema: qualificationSchema,
+        name: "Qualification"
+    },
+    {
+        type: "Basic",
+        schema: otherDetailSchema,
+        name: "otherDetails"
+    }
+    ]

@@ -10,6 +10,7 @@ import DeleteIcons from '../icons/DeleteIcons';
 import Button from '../ui/Button';
 import PlusIcon from '../icons/PlusIcon';
 import { EyeIcon } from '@heroicons/react/20/solid'
+import * as Yup from 'yup';
 
 interface RepeatableFormProps {
     formName: string;
@@ -21,11 +22,16 @@ interface RepeatableFormProps {
 const RepeatableForm: React.FC<RepeatableFormProps> = ({ formName, formValue = [], setFormValue, fieldsSchema }) => {
 
     const [expanded, setExpanded] = useState<string | false>();
-
+    const validationSchemaFields: { [key: string]: any } = {};
     const initialValues: { [key: string]: string } = {};
     fieldsSchema.forEach((field: any) => {
         initialValues[field.name] = '';
+        if (field?.required) {
+            validationSchemaFields[`${field.name}`] = Yup.string().required(`${field.label || field.name} is required`);
+        }
     });
+    const validationSchema = Yup.object().shape(validationSchemaFields);
+
     const handleChange =
         (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
             setExpanded(newExpanded ? panel : false);
@@ -79,6 +85,7 @@ const RepeatableForm: React.FC<RepeatableFormProps> = ({ formName, formValue = [
                                 <Formik
                                     initialValues={edu.values}
                                     onSubmit={(values) => handleFormSubmit(values, edu.id)}
+                                    validationSchema={validationSchema}
                                 >
 
                                     <Form className="grid gap-4 grid-flow-row-dense grid-cols-12 grid-rows-2">

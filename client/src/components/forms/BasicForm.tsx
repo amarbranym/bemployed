@@ -32,7 +32,7 @@ const BasicForm: React.FC<BasicFromProps> = ({ fieldsSchema, setFormValue, formV
             enableReinitialize
             onSubmit={() => { }}
             validate={(values) => { setFormValue(values) }}
-            validationSchema={validationSchema}  
+            validationSchema={validationSchema}
         >
             <Form className="grid gap-4 grid-flow-row-dense grid-cols-12 grid-rows-2 ">
                 {fieldsSchema.map((field: any, index: any) => (
