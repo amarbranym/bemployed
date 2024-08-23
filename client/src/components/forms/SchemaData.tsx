@@ -10,6 +10,7 @@ interface FormData {
         model?: string;
         field?: string;
         options?: { label: string; value: string }[];
+        isMulti?:boolean
     };
     help?: string;
     cols?: number;
@@ -70,7 +71,7 @@ export const addressTypeOption: OptionSechma[] = [
 ];
 export const personalSchema: FormData[] = [
     {
-        name: 'profile',
+        name: 'Profile',
         type: 'file',
         label: 'Profile',
         rules: {
@@ -82,7 +83,7 @@ export const personalSchema: FormData[] = [
         row: 2,
     },
     {
-        name: 'firstName',
+        name: 'FirstName',
         type: 'text',
         label: 'First Name',
         rules: {
@@ -95,7 +96,7 @@ export const personalSchema: FormData[] = [
     },
 
     {
-        name: 'lastName',
+        name: 'LastName',
         type: 'text',
         label: 'Last Name',
         rules: {
@@ -108,7 +109,7 @@ export const personalSchema: FormData[] = [
 
     },
     {
-        name: 'email',
+        name: 'Email',
         type: 'email',
         label: 'Email',
         rules: {
@@ -122,7 +123,7 @@ export const personalSchema: FormData[] = [
     },
 
     {
-        name: 'fatherName',
+        name: 'FatherName',
         type: 'text',
         label: 'Father Name',
         rules: {
@@ -136,12 +137,14 @@ export const personalSchema: FormData[] = [
     },
 
     {
-        name: 'city',
+        name: 'City',
         type: 'ref:strapi',
         label: 'City',
         rules: {
             model: "cities",
-            field: "Name"
+            field: "Name",
+            isMulti:false,
+
         },
         help: '',
         cols: 6,
@@ -161,7 +164,7 @@ export const personalSchema: FormData[] = [
 
     },
     {
-        name: 'street',
+        name: 'Street',
         type: 'textarea',
         label: 'Street',
         rules: {
@@ -231,6 +234,8 @@ export const qualificationSchema: FormData[] = [
         rules: {
             model: "schools",
             field: "Name",
+            isMulti:false,
+
         },
         help: '',
         cols: 6,
@@ -256,6 +261,8 @@ export const qualificationSchema: FormData[] = [
         rules: {
             model: "qualifications",
             field: "Name",
+            isMulti:false,
+
         },
         help: '',
         cols: 6,
@@ -285,7 +292,9 @@ export const experienceSchema: FormData[] = [
         label: 'Company',
         rules: {
             model: "companies",
-            field: "Name"
+            field: "Name",
+            isMulti:false,
+
         },
         help: '',
         cols: 6,
@@ -322,12 +331,13 @@ export const experienceSchema: FormData[] = [
 
 export const otherDetailSchema: FormData[] = [
     {
-        name: 'skill',
+        name: 'Skills',
         type: 'ref:strapi',
         label: 'Skills',
         rules: {
             model: "skills",
-            field: "name"
+            field: "name",
+            isMulti:true,
         },
         help: '',
         cols: 6,
@@ -335,12 +345,14 @@ export const otherDetailSchema: FormData[] = [
 
     },
     {
-        name: 'industry',
+        name: 'IndustriesPerference',
         type: 'ref:strapi',
         label: 'Industry',
         rules: {
             model: "industries",
-            field: "Name"
+            field: "Name",
+            isMulti:true,
+
         },
         help: '',
         cols: 6,
@@ -348,7 +360,7 @@ export const otherDetailSchema: FormData[] = [
 
     },
     {
-        name: 'dob',
+        name: 'DOB',
         type: 'text',
         label: 'DOB',
         rules: {
@@ -360,7 +372,7 @@ export const otherDetailSchema: FormData[] = [
         row: 1,
     },
     {
-        name: 'gender',
+        name: 'Gender',
         type: 'select',
         label: 'Gender',
         rules: {
@@ -371,7 +383,7 @@ export const otherDetailSchema: FormData[] = [
         row: 1,
     },
     {
-        name: 'maritalStatus',
+        name: 'MaritalStatus',
         type: 'select',
         label: 'Marital Status',
         rules: {

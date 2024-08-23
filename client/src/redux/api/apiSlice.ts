@@ -30,17 +30,16 @@ export const apiSlice = createApi({
           data: params.data,
         },
       }),
-      // async onQueryStarted(params, { queryFulfilled, dispatch }) {
-      //   try {
-      //     await queryFulfilled;
-      //     dispatch(
-      //       apiSlice.endpoints.getOptions.initiate({
-      //         searchValue: "",
-      //         model: params.model,
-      //       })
-      //     );
-      //   } catch (error: any) {}
-      // },
+    }),
+    createNewStudent: builder.mutation({
+      query: (data) => ({
+        url: `students`,
+        method: "POST",
+        credentials: "include" as const,
+        body: {
+          data
+        },
+      }),
     }),
   }),
 });
@@ -49,4 +48,5 @@ export const {
   useGetStudentQuery,
   useGetOptionsQuery,
   useCreateNewEntryMutation,
+  useCreateNewStudentMutation
 } = apiSlice;

@@ -8,52 +8,52 @@ import { useField, useFormikContext } from 'formik';
 
 const StrapiField = ({ ...props }) => {
     const { setFieldValue } = useFormikContext<any>();
+    const [showMenu, setShowMenu] = useState<boolean>(false);
+    const [searchValue, setSearchValue] = useState<string>("");
+    const [selectedValue, setSelectedValue] = useState<any>(props?.rules?.isMulti ? [] : null);
+    const [values, setValues] = useState<any[]>([]);
 
-    const [showMenu, setShowMenu] = useState<boolean>(false)
-    const [searchValue, setSearchValue] = useState<any>("");
-    const [selectedValue, setSelectedValue] = useState<any>(null);
-    const [values, setValues] = useState<any>(null)
-    const { data, refetch } = useGetOptionsQuery({ searchValue, model: props.rules.model }, { refetchOnMountOrArgChange: true });
+    const { data, refetch } = useGetOptionsQuery(
+        { searchValue, model: props.rules.model },
+        { refetchOnMountOrArgChange: true }
+    );
     const [createNewEntry, { isLoading, isSuccess }] = useCreateNewEntryMutation();
-
-    async function transformData(optionData: any) {
-        return optionData && optionData?.map((item: any) => ({
-            label: item.attributes[props.rules.field],
-            value: item.attributes[props.rules.field]
-        }));
-    }
-    async function getOptions() {
-        const options = await transformData(data?.data);
-        return options;
-    }
+    useEffect(() => {
+        if (data) {
+            const options = data?.data?.map((item: any) => ({
+                label: item.attributes[props.rules.field],
+                value: item.attributes[props.rules.field],
+                id: item.id
+            })) || [];
+            setValues(options);
+        }
+    }, [data]);
 
     useEffect(() => {
-        getOptions().then((option: any) => {
-            setValues(option)
-        });
         if (isSuccess) {
-            toast.success(`${props.rules.model} create successfully!`)
+            toast.success(`${props.rules.model} created successfully!`);
+            refetch();
         }
+    }, [isSuccess, refetch, props.rules.model]);
 
-        if (selectedValue || searchValue) {
-            const optionValue = selectedValue.value || searchValue
-            setFieldValue(props.name, optionValue)
-
+    useEffect(() => {
+        if (selectedValue) {
+            setFieldValue(props.name, props?.rules?.isMulti ? selectedValue.map((val: any) => val.value) : selectedValue.value);
+        } else if (searchValue) {
+            setFieldValue(props.name, searchValue);
         }
-    }, [data, isSuccess, searchValue, selectedValue])
+    }, [selectedValue, searchValue, setFieldValue, props.name, props.rules.isMulti]);
 
+    const inputRef = useRef<any>(null);
 
-
-    const inputRef = useRef<any>();
-    const handleInputClick = (e: any) => {
-        setShowMenu(!showMenu);
+    const handleInputClick = () => {
+        setShowMenu(prev => !prev);
     };
 
     useEffect(() => {
         const handler = (e: any) => {
             if (inputRef.current && !inputRef.current.contains(e.target)) {
                 setShowMenu(false);
-
             }
         };
 
@@ -61,33 +61,69 @@ const StrapiField = ({ ...props }) => {
         return () => {
             window.removeEventListener("click", handler);
         };
-    });
-
-
+    }, []);
 
     const isSelected = (option: any) => {
-        if (!selectedValue) {
-            return false;
-        }
-        return selectedValue.value === option.value;
+        if (!selectedValue) return false;
+        return props?.rules?.isMulti
+            ? selectedValue.some((val: any) => val.value === option.value)
+            : selectedValue.value === option.value;
     };
 
     const onItemClick = (option: any) => {
-        setSelectedValue(option);
-        setSearchValue(option?.label);
-        setShowMenu(!showMenu)
-    };
-    const handleSave = async () => {
-        const mutaionData = {
-            data: {
-                [props.rules.field]: searchValue
-            },
-            model: props.rules.model
+        let newValue;
+        if (props?.rules?.isMulti) {
+            if (selectedValue.some((val: any) => val.value === option.value)) {
+                setShowMenu(false)
+                return; // Do nothing if the option is already selected
+            } else {
+                newValue = [...selectedValue, option];
+            }
+        } else {
+            newValue = option;
         }
-        await createNewEntry(mutaionData)
-    }
+        setSelectedValue(newValue);
+        setSearchValue(props?.rules?.isMulti ? "" : option.label);
+        setShowMenu(false);
+    };
+
+    const onTagRemove = (e: any, option: any) => {
+        e.stopPropagation();
+        setSelectedValue(selectedValue.filter((val: any) => val.value !== option.value));
+    };
+
+    const handleSave = async () => {
+        await createNewEntry({
+            data: { [props.rules.field]: searchValue },
+            model: props.rules.model
+        });
+    };
+
+    console.log("data", values)
     return (
         <div ref={inputRef} className=' relative '>
+            {
+                props?.rules?.isMulti && (
+                    <div className='flex gap-2 mb-2 flex-wrap'>
+                        {
+                            selectedValue.map((tag: any, index: any) => (
+                                <span key={index} className="inline-flex items-center gap-x-0.5 rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                                    {tag.label}
+                                    <button onClick={(e) => onTagRemove(e, tag)} type="button" className="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-gray-500/20">
+                                        <span className="sr-only">Remove</span>
+                                        <svg viewBox="0 0 14 14" className="h-3.5 w-3.5 stroke-gray-600/50 group-hover:stroke-gray-600/75">
+                                            <path d="M4 4l6 6m0-6l-6 6" />
+                                        </svg>
+                                        <span className="absolute -inset-1" />
+                                    </button>
+                                </span>
+                            ))
+                        }
+
+                    </div>
+                )
+            }
+
             <div className="relative  rounded-md shadow-sm" onClick={handleInputClick} >
                 <input
                     name={props.name}
@@ -104,7 +140,7 @@ const StrapiField = ({ ...props }) => {
                 <ul role="list" className=" w-full   max-h-[20rem] overflow-y-auto absolute z-40 mt-2  origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
                 >
                     {
-                        values.length > 0 ? values.map((item: any, index: any) => (
+                        values?.length > 0 ? values?.map((item: any, index: any) => (
                             <li key={index + 1} onClick={() => onItemClick(item)} className={` hover:bg-gray-100 cursor-pointer block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 ${isSelected(item) && "bg-gray-100"}`}>{item.label}</li>
 
                         )) :

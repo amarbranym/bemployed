@@ -51,11 +51,11 @@ const RepeatableForm: React.FC<RepeatableFormProps> = ({ formName, formValue = [
         setFormValue(formValue.filter((edu: any) => edu.id !== id));
     };
 
-    useEffect(() => {
-        const id = uuidv4()
-        setFormValue([...formValue, { id: id, values: { ...initialValues } }]);
-        setExpanded(id)
-    }, [])
+    // useEffect(() => {
+    //     const id = uuidv4()
+    //     setFormValue([...formValue, { id: id, values: { ...initialValues } }]);
+    //     setExpanded(id)
+    // }, [])
 
     return (
         <div className='border  rounded-md px-6'>
