@@ -1,0 +1,251 @@
+{
+  "createdAt": "2024-08-07T08:21:05.541Z",
+  "updatedAt": "2024-08-10T09:01:24.613Z",
+  "publishedAt": "2024-08-20T07:56:13.075Z",
+  "Email": "amarsingh94620@gmail.com",
+  "FirstName": "Amarjeet",
+  "LastName": "Singh",
+  "DOB": "2000-06-16",
+  "Gender": "Male",
+  "MaritalStatus": "Unmarried",
+  "FatherName": "Balveer Singh",
+  "experience": [
+    {
+      "id": 18,
+      "Duration": 4,
+      "Designation": {
+        "data": {
+          "id": 9,
+          "attributes": {
+            "Name": "‎Software Engineer",
+            "createdAt": "2024-08-07T08:21:49.645Z",
+            "updatedAt": "2024-08-07T08:21:49.645Z",
+            "publishedAt": "2024-08-16T08:04:12.236Z"
+          }
+        }
+      },
+      "Company": {
+        "data": {
+          "id": 123,
+          "attributes": {
+            "Name": "Branym Technologies",
+            "createdAt": "2024-08-07T08:15:13.807Z",
+            "updatedAt": "2024-08-07T08:15:13.807Z",
+            "publishedAt": "2024-08-13T08:17:12.745Z",
+            "Address": null,
+            "Contact": [
+              {
+                "id": 253,
+                "CountryCode": "India (+91)",
+                "Number": "7087362779",
+                "Type": "Primary"
+              }
+            ],
+            "City": {
+              "data": {
+                "id": 2,
+                "attributes": {
+                  "Name": "Sri Ganganagar",
+                  "createdAt": "2024-07-31T23:38:26.780Z",
+                  "updatedAt": "2024-07-31T23:38:26.780Z",
+                  "publishedAt": "2024-08-17T07:16:04.716Z"
+                }
+              }
+            },
+            "Industry": {
+              "data": {
+                "id": 6,
+                "attributes": {
+                  "Name": "Technology (IT)",
+                  "createdAt": "2024-08-01T09:17:57.086Z",
+                  "updatedAt": "2024-08-01T09:21:04.010Z",
+                  "publishedAt": "2024-08-16T11:14:26.590Z"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 19,
+      "Duration": 12,
+      "Designation": {
+        "data": {
+          "id": 9,
+          "attributes": {
+            "Name": "‎Software Engineer",
+            "createdAt": "2024-08-07T08:21:49.645Z",
+            "updatedAt": "2024-08-07T08:21:49.645Z",
+            "publishedAt": "2024-08-16T08:04:12.236Z"
+          }
+        }
+      },
+      "Company": {
+        "data": {
+          "id": 124,
+          "attributes": {
+            "Name": "Start Designs",
+            "createdAt": "2024-08-07T08:24:00.712Z",
+            "updatedAt": "2024-08-07T08:24:00.712Z",
+            "publishedAt": "2024-08-13T08:17:12.745Z",
+            "Address": null,
+            "Contact": [
+              {
+                "id": 255,
+                "CountryCode": "India (+91)",
+                "Number": "1414044287",
+                "Type": "Primary"
+              }
+            ],
+            "City": {
+              "data": {
+                "id": 6,
+                "attributes": {
+                  "Name": "Jaipur",
+                  "createdAt": "2024-08-01T10:43:14.098Z",
+                  "updatedAt": "2024-08-01T10:43:14.098Z",
+                  "publishedAt": "2024-08-17T07:15:50.893Z"
+                }
+              }
+            },
+            "Industry": {
+              "data": {
+                "id": 6,
+                "attributes": {
+                  "Name": "Technology (IT)",
+                  "createdAt": "2024-08-01T09:17:57.086Z",
+                  "updatedAt": "2024-08-01T09:21:04.010Z",
+                  "publishedAt": "2024-08-16T11:14:26.590Z"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "Skills": {
+    "data": [
+      {
+        "id": 16,
+        "attributes": {
+          "name": "Frontend Developer",
+          "createdAt": "2024-08-07T08:24:54.039Z",
+          "updatedAt": "2024-08-07T08:25:02.051Z",
+          "publishedAt": "2024-08-16T11:14:04.991Z",
+          "Category": "Technical"
+        }
+      },
+      {
+        "id": 17,
+        "attributes": {
+          "name": "React Developer",
+          "createdAt": "2024-08-07T08:25:14.737Z",
+          "updatedAt": "2024-08-07T08:25:14.737Z",
+          "publishedAt": "2024-08-16T11:14:13.582Z",
+          "Category": null
+        }
+      }
+    ]
+  },
+  "qualification": [
+    {
+      "id": 82,
+      "Year": null,
+      "Score": null,
+      "qualification": {
+        "data": {
+          "id": 1,
+          "attributes": {
+            "Name": "10th Pass",
+            "createdAt": "2024-07-31T23:42:43.115Z",
+            "updatedAt": "2024-07-31T23:42:43.115Z",
+            "publishedAt": "2024-08-16T07:52:13.740Z"
+          }
+        }
+      },
+      "school": {
+        "data": {
+          "id": 7,
+          "attributes": {
+            "Name": "Board of Secondary Education Rajasthan",
+            "createdAt": "2024-08-01T10:47:29.454Z",
+            "updatedAt": "2024-08-01T10:47:29.454Z",
+            "publishedAt": "2024-08-15T13:02:08.595Z"
+          }
+        }
+      }
+    },
+    {
+      "id": 83,
+      "Year": null,
+      "Score": "60.60",
+      "qualification": {
+        "data": {
+          "id": 2,
+          "attributes": {
+            "Name": "12th Pass",
+            "createdAt": "2024-07-31T23:42:50.204Z",
+            "updatedAt": "2024-07-31T23:42:50.204Z",
+            "publishedAt": "2024-08-16T07:52:13.740Z"
+          }
+        }
+      },
+      "school": {
+        "data": {
+          "id": 7,
+          "attributes": {
+            "Name": "Board of Secondary Education Rajasthan",
+            "createdAt": "2024-08-01T10:47:29.454Z",
+            "updatedAt": "2024-08-01T10:47:29.454Z",
+            "publishedAt": "2024-08-15T13:02:08.595Z"
+          }
+        }
+      }
+    }
+  ],
+  "Contacts": [
+    {
+      "id": 254,
+      "CountryCode": "India (+91)",
+      "Number": "6377579544",
+      "Type": "Primary"
+    },
+    {
+      "id": 256,
+      "CountryCode": "India (+91)",
+      "Number": "6377579544",
+      "Type": "Primary"
+    }
+  ],
+  "Address": {
+    "id": 35,
+    "Street": "Village kalwasia, sadulshahar ",
+    "AddressType": "Permanent",
+    "City": {
+      "data": {
+        "id": 2,
+        "attributes": {
+          "Name": "Sri Ganganagar",
+          "createdAt": "2024-07-31T23:38:26.780Z",
+          "updatedAt": "2024-07-31T23:38:26.780Z",
+          "publishedAt": "2024-08-17T07:16:04.716Z"
+        }
+      }
+    }
+  },
+  "IndustriesPreference": {
+    "data": [
+      {
+        "id": 6,
+        "attributes": {
+          "Name": "Technology (IT)",
+          "createdAt": "2024-08-01T09:17:57.086Z",
+          "updatedAt": "2024-08-01T09:21:04.010Z",
+          "publishedAt": "2024-08-16T11:14:26.590Z"
+        }
+      }
+    ]
+  }
+}

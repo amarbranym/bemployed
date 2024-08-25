@@ -38,15 +38,14 @@ const RepeatableForm: React.FC<RepeatableFormProps> = ({ formName, formValue = [
         };
     const addForm = () => {
         const uniqueId = uuidv4();
-        setFormValue([...formValue, { id: uniqueId, values: { ...initialValues } }]);
+        setFormValue([...formValue, { id: uniqueId,  ...initialValues  }]);
         setExpanded(uniqueId)
     };
 
     const handleFormSubmit = (values: any, id: string) => {
-
         setFormValue(formValue?.map((edu: any) => {
             if (edu.id === id) {
-                return { ...edu, values };
+                return { ...edu, ...values };
             }
             return edu;
         }));
@@ -70,21 +69,21 @@ const RepeatableForm: React.FC<RepeatableFormProps> = ({ formName, formValue = [
             </div>
 
             <div className='flex flex-col gap-2   '>
-                {formValue?.map((edu: any, index: any) => (
-                    <div key={edu.id}>
-                        <Accordion expanded={expanded === edu.id} onChange={handleChange(edu.id)} sx={{ boxShadow: "none", paddingY: "0px", border: "1px solid #dcd8d8" }}>
-                            <AccordionSummary sx={{ borderRadius: "10px", display: expanded === edu.id ? "none" : "flex", justifyContent: "space-between", alignItems: "center" }} >
+                {formValue?.map((val: any, index: any) => (
+                    <div key={val.id}>
+                        <Accordion expanded={expanded === val.id} onChange={handleChange(val.id)} sx={{ boxShadow: "none", paddingY: "0px", border: "1px solid #dcd8d8" }}>
+                            <AccordionSummary sx={{ borderRadius: "10px", display: expanded === val.id ? "none" : "flex", justifyContent: "space-between", alignItems: "center" }} >
 
                                 <h4 className=' w-full text-sm  block '>
-                                    <span className='mr-2'>{index + 1}.</span>   {edu?.id}
+                                    <span className='mr-2'>{index + 1}.</span>   {val?.id}
                                 </h4>
                                 <EyeIcon className='size-6 ' />
 
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Formik
-                                    initialValues={edu.values}
-                                    onSubmit={(values) => handleFormSubmit(values, edu.id)}
+                                    initialValues={val}
+                                    onSubmit={(values) => handleFormSubmit(values, val.id)}
                                     validationSchema={validationSchema}
                                 >
 
@@ -98,7 +97,7 @@ const RepeatableForm: React.FC<RepeatableFormProps> = ({ formName, formValue = [
                                                     Save
                                                 </Button>
                                             </div>
-                                            <button type='button' onClick={() => removeForm(edu.id)}>
+                                            <button type='button' onClick={() => removeForm(val.id)}>
                                                 <DeleteIcons className='size-6' />
 
                                             </button>

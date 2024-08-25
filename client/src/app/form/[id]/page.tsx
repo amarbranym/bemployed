@@ -2,11 +2,11 @@ import BranymForm from '@/components/forms/BranymForm'
 import { Container } from '@/components/layouts/Container'
 import React from 'react'
 
-const page = () => {
+const page = ({params}:any) => {
   return (
     <Container >
       <div className='py-10'>
-        <BranymForm  />
+        <BranymForm slug={params.id} />
       </div>
     </Container>
   )

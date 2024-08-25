@@ -29,7 +29,7 @@ const currentYear = moment().year(); // Fetches the current year
 const yearOptions: OptionSechma[] = [];
 yearOptions.push({ label: "Choose here", value: "" });
 for (let year = startYear; year <= currentYear; year++) {
-    yearOptions.push({ label: ` ${year.toString()}`, value: year.toString() });
+    yearOptions.push({ label: `y${year.toString()}`, value: `y${year.toString()}` });
 }
 const genderOptions: OptionSechma[] = [
     { label: "Choose here", value: "" },
@@ -274,7 +274,7 @@ export const qualificationSchema: FormData[] = [
 
 export const experienceSchema: FormData[] = [
     {
-        name: 'company',
+        name: 'Company',
         type: 'ref:strapi',
         label: 'Company',
         rules: {
@@ -286,7 +286,7 @@ export const experienceSchema: FormData[] = [
         row: 1,
     },
     {
-        name: 'designation',
+        name: 'Designation',
         type: 'ref:strapi',
         label: 'Designation',
         rules: {
@@ -316,7 +316,7 @@ export const experienceSchema: FormData[] = [
 export const otherDetailSchema: FormData[] = [
 
     {
-        name: 'IndustriesPerference',
+        name: 'IndustriesPreference',
         type: 'ref:strapi',
         label: 'Industry',
         rules: {
@@ -420,22 +420,22 @@ export const formView = [
     {
         type: "Component",
         schema: AddressSchema,
-        name: "address"
+        name: "Address"
     },
     {
         type: "RepeatableComponent",
         schema: ContactSchema,
-        name: "Contact"
+        name: "Contacts"
     },
     {
         type: "RepeatableComponent",
         schema: experienceSchema,
-        name: "Experience"
+        name: "experience"
     },
     {
         type: "RepeatableComponent",
         schema: qualificationSchema,
-        name: "Qualification"
+        name: "qualification"
     },
     {
         type: "Basic",

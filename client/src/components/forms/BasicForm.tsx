@@ -14,10 +14,10 @@ const BasicForm: React.FC<BasicFromProps> = ({ fieldsSchema, setFormValue, formV
 
     fieldsSchema.forEach((field: any) => {
         if (field?.multiple) {
-            initialValues[`${field.name}`] = [];
+            initialValues[`${field.name}`] = formValue[`${field.name}`] ? formValue[`${field.name}`] : [];
         }
         else {
-            initialValues[`${field.name}`] = '';
+            initialValues[`${field.name}`] = formValue[`${field.name}`] ? formValue[`${field.name}`] : '';
         }
         if (field?.required) {
             validationSchemaFields[`${field.name}`] = Yup.string().required(`${field.label || field.name} is required`);

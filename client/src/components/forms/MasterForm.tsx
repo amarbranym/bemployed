@@ -15,7 +15,10 @@ interface MasterFormProps {
 
 const MasterForm: React.FC<MasterFormProps> = ({ fields, onSubmit, data, setData }) => {
     const handleData = (key: string) => {
-        const func = (values: any) => { setData({ ...data, [key]: values }) }
+        
+        const func = (values: any) => { 
+            setData({ ...data, [key]: values }) 
+        }
         return func;
     }
     return (

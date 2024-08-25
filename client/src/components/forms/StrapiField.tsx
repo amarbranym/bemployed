@@ -7,14 +7,14 @@ import { useField, useFormikContext } from 'formik';
 
 
 const StrapiField = ({ ...props }) => {
-    const { setFieldValue } = useFormikContext<any>();
+    const [field] = useField(props.name)
+    const { values: fieldValues, setFieldValue } = useFormikContext<any>();
     const [showMenu, setShowMenu] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useState<string>("");
     const [selectedValue, setSelectedValue] = useState<any>(props?.multiple ? [] : null);
     const [values, setValues] = useState<any[]>([]);
 
     useEffect(() => {
-
         setFieldValue(props.name, props?.multiple ? [] : null)
 
     }, [])
@@ -46,11 +46,11 @@ const StrapiField = ({ ...props }) => {
         if (props?.multiple) {
             setFieldValue(props.name, selectedValue.length ? selectedValue.map((val: any) => val) : []);
         }
-        else{
+        else {
             setFieldValue(props.name, selectedValue)
         }
 
-    }, [selectedValue,  setFieldValue, props.name, props.multiple]);
+    }, [selectedValue, setFieldValue, props.name, props.multiple]);
 
     const inputRef = useRef<any>(null);
 
@@ -97,7 +97,7 @@ const StrapiField = ({ ...props }) => {
 
     const onTagRemove = (e: any, option: any) => {
         e.stopPropagation();
-        setSelectedValue(selectedValue.filter((val: any) => val.value !== option.value));
+        setSelectedValue(selectedValue.filter((val: any) => val.id !== option.id));
     };
 
     const handleSave = async () => {
@@ -107,13 +107,25 @@ const StrapiField = ({ ...props }) => {
         });
     };
 
+    // useEffect(() => {
+    //     if (fieldValues) {
+    //         if (props.multiple) {
+    //             setSelectedValue(fieldValues[props.name])
+    //         } else {
+    //             setSelectedValue(fieldValues[props.name])
+
+    //         }
+    //     }
+    // }, [ ])
+    // console.log("s", fieldValues.IndustriesPreference    )
+    console.log("s", selectedValue)
     return (
         <div ref={inputRef} className=' relative '>
             {
                 props?.multiple && (
                     <div className='flex gap-2 mb-2 flex-wrap'>
                         {
-                            selectedValue.map((tag: any, index: any) => (
+                            (selectedValue).map((tag: any, index: any) => (
                                 <span key={index} className="inline-flex items-center gap-x-0.5 rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
                                     {tag.label}
                                     <button onClick={(e) => onTagRemove(e, tag)} type="button" className="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-gray-500/20">
@@ -133,7 +145,7 @@ const StrapiField = ({ ...props }) => {
 
             <div className="relative  rounded-md shadow-sm" onClick={handleInputClick} >
                 <input
-                    name={props.name}
+                    {...field}
                     type="text"
                     onChange={(e: any) => setSearchValue(e.target.value)}
                     value={searchValue}

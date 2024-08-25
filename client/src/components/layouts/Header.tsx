@@ -47,7 +47,7 @@ const Header = () => {
     return (
         <header className=' sticky top-0 bg-white py-3 px-4 flex items-center justify-between border-b print:hidden'>
             <div className='text-2xl font-bold mt-1'>
-                <Logo/>
+                <Logo />
             </div>
             <div className='flex gap-4'>
                 <Button onClick={handleDecrement}><RightArrow className='size-4 rotate-180 ' /> </Button>
