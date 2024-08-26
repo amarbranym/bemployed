@@ -3,11 +3,12 @@ import React, { useEffect, useState } from 'react'
 import MasterForm from './MasterForm'
 import { FormData, formView } from "./SchemaData"
 
-import { useGetStudentQuery } from '@/redux/api/apiSlice'
+import { useCreateNewStudentMutation, useGetStudentQuery } from '@/redux/api/apiSlice'
 import example from './example.json';
 
 const BranymForm = ({ slug }: { slug?: string }) => {
     const { data: studentData, isLoading, error } = useGetStudentQuery(slug);
+    const [createNewStudent] = useCreateNewStudentMutation()
     const [data, setData] = useState<any>({})
 
     const convertRef = (refData: any, field: any) => {
@@ -93,15 +94,15 @@ const BranymForm = ({ slug }: { slug?: string }) => {
 
         }
         setData(obj)
-        return obj
+        // return obj
 
     }
 
     useEffect(() => {
-        const result = populateData(formView, example)
-        // setData(result)
-        // console.log("data populate", populateData(formView, example));
-        // console.log("data student", studentData);
+        if (studentData) {
+            populateData(formView, studentData?.data?.attributes)
+        }
+
     }, [studentData])
 
     const handleSubmit = async () => {
@@ -119,7 +120,7 @@ const BranymForm = ({ slug }: { slug?: string }) => {
                         }
                         else {
                             obj[`${field.name}`] = {
-                                connect: [{ id: data[`${field.name}`].id }]
+                                connect: [{ id: data[`${field.name}`]?.id }]
                             }
                         }
                     }
@@ -153,9 +154,9 @@ const BranymForm = ({ slug }: { slug?: string }) => {
                 submissionData = { ...submissionData, ...transformData(schema, name, data[name]) }
             }
         })
-        // console.log("data data", data);
-        // console.log("data submissionData", data);
-        // await createNewStudent(submissionData)
+        console.log("data", submissionData);
+        console.log("data ", data);
+        await createNewStudent(submissionData)
     }
 
 

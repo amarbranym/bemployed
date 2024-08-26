@@ -11,7 +11,7 @@ const Form_Input = ({ ...props }) => {
   return (
     <>
 
-      {["text", "number"].includes(props.type) && (<><Field
+      {["text", "number", "date"].includes(props.type) && (<><Field
         {...field}
         {...props}
         className="input-text"
@@ -21,6 +21,7 @@ const Form_Input = ({ ...props }) => {
         }</>)
 
       }
+
 
       {["email"].includes(props.type) && (
         <div className="relative  rounded-md shadow-sm">

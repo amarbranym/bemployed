@@ -43,11 +43,20 @@ const maritalStatusOptions: OptionSechma[] = [
     { label: "Married", value: "married" },
     { label: "Divorced", value: "divorced" },
 ];
+
+
 export const CountryCodeOption: OptionSechma[] = [
     { label: "Choose here", value: "" },
-    { value: '+91', label: 'India(+91)' },
-    { value: '+1', label: 'USA(+1)' },
-    { value: '+91', label: 'UK(+44)' },
+    { value: 'USA (+1)', label: 'USA (+1)' },
+    { value: 'India (+91)', label: 'India (+91)' },
+    { value: 'UK (+44)', label: 'UK(+44)' },
+    { value: 'Australia (+61)', label: 'Australia (+61)' },
+    { value: 'Japan (+81)', label: 'Japan (+81)' },
+    { value: 'Germany (+49)', label: 'Germany (+49)' },
+    { value: 'France (+33)', label: 'France (+33)' },
+    { value: 'China (+86)', label: 'China (+86)' },
+    { value: 'Italy (+39)', label: 'Italy (+39)' },
+    { value: 'Russia (+7)', label: 'Russia (+7)' },
 ];
 export const ContactTypeOptoin: OptionSechma[] = [
     { label: "Choose here", value: "" },
@@ -152,7 +161,7 @@ export const AddressSchema: FormData[] = [
         row: 1,
     },
     {
-        name: 'addressType',
+        name: 'AddressType',
         type: 'select',
         label: 'Address Type',
         rules: {
@@ -258,7 +267,7 @@ export const qualificationSchema: FormData[] = [
         row: 1,
     },
     {
-        name: 'score ',
+        name: 'Score',
         type: 'text',
         label: 'Score ',
         rules: {
@@ -299,9 +308,10 @@ export const experienceSchema: FormData[] = [
     },
 
     {
-        name: 'duration',
+        name: 'Duration',
         type: 'number',
         label: 'Duration',
+        required:true,
         rules: {
             min_length: 5,
             max_length: 80,
@@ -344,7 +354,7 @@ export const otherDetailSchema: FormData[] = [
     },
     {
         name: 'DOB',
-        type: 'text',
+        type: 'date',
         label: 'DOB',
         rules: {
             min_length: 5,
@@ -442,4 +452,4 @@ export const formView = [
         schema: otherDetailSchema,
         name: "otherDetails"
     }
-    ]
+]
