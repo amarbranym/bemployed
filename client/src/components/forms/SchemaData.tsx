@@ -77,7 +77,7 @@ export const GenderOption: OptionSechma[] = [
 export const addressTypeOption: OptionSechma[] = [
     { label: "Choose here", value: "" },
     { value: "permanent", label: "Permanent" },
-    { value: "alternent", label: "Alternent" },
+    { value: "alternate", label: "Alternate" },
 ];
 export const personalSchema: FormData[] = [
     // {
@@ -203,7 +203,7 @@ export const ContactSchema: FormData[] = [
     },
     {
         name: 'Number',
-        type: 'number',
+        type: 'text',
         label: 'Number',
         rules: {
             min_length: 5,

@@ -3,8 +3,8 @@ import React, { useEffect } from 'react'
 import FormFields from './FormField';
 import * as Yup from 'yup';
 interface BasicFromProps {
-    formValue: any; // Can be a more specific type if you know the structure
-    setFormValue: React.Dispatch<React.SetStateAction<any>>; // Can be more specific with a known structure
+    formValue: any;
+    setFormValue: React.Dispatch<React.SetStateAction<any>>;
     fieldsSchema: any;
 }
 const BasicForm: React.FC<BasicFromProps> = ({ fieldsSchema, setFormValue, formValue = {} }) => {
@@ -22,10 +22,10 @@ const BasicForm: React.FC<BasicFromProps> = ({ fieldsSchema, setFormValue, formV
         if (field?.required) {
             validationSchemaFields[`${field.name}`] = Yup.string().required(`${field.label || field.name} is required`);
         }
-
     });
 
     const validationSchema = Yup.object().shape(validationSchemaFields);
+
     return (
         <Formik
             initialValues={initialValues}
@@ -39,6 +39,7 @@ const BasicForm: React.FC<BasicFromProps> = ({ fieldsSchema, setFormValue, formV
                     <FormFields key={index} {...field} />
                 ))}
             </Form>
+
         </Formik >
     )
 }

@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
+import toast from "react-hot-toast";
+const populateQuery =
+  "populate=experience.Company.Contact,experience.Company.City,experience.Company.Industry,experience.Designation,Skills,qualification.school,qualification.qualification,Contacts,Address,Address.City,IndustriesPreference";
 export const apiSlice = createApi({
   reducerPath: "api",
   tagTypes: ["strapi"],
@@ -9,7 +11,14 @@ export const apiSlice = createApi({
   endpoints: (builder) => ({
     getStudent: builder.query({
       query: (studentId) => ({
-        url: `students/${studentId}?populate=experience.Company.Contact,experience.Company.City,experience.Company.Industry,experience.Designation,Skills,qualification.school,qualification.qualification,Contacts,Address,Address.City,IndustriesPreference`,
+        url: `students/${studentId}?${populateQuery}`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
+    getCandidateList: builder.mutation({
+      query: (page:number) => ({
+        url: `students?${populateQuery}&pagination[page]=${page}&pagination[pageSize]=10`,
         method: "GET",
         credentials: "include" as const,
       }),
@@ -32,14 +41,22 @@ export const apiSlice = createApi({
       }),
     }),
     createNewStudent: builder.mutation({
-      query: (data) => ({
-        url: `students`,
-        method: "POST",
+      query: (params: { id: string | undefined; data: any }) => ({
+        url: params.id ? `students/${params.id}` : `students`,
+        method: params.id ? "PUT" : "POST",
         credentials: "include" as const,
         body: {
-          data
+          data: params.data,
         },
       }),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          toast.success("Saved");
+        } catch (error: any) {
+          console.log(error);
+        }
+      },
     }),
   }),
 });
@@ -48,5 +65,6 @@ export const {
   useGetStudentQuery,
   useGetOptionsQuery,
   useCreateNewEntryMutation,
-  useCreateNewStudentMutation
+  useCreateNewStudentMutation,
+  useGetCandidateListMutation,
 } = apiSlice;

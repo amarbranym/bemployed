@@ -2,12 +2,14 @@
 import React, { useEffect, useState } from 'react'
 import MasterForm from './MasterForm'
 import { FormData, formView } from "./SchemaData"
-
 import { useCreateNewStudentMutation, useGetStudentQuery } from '@/redux/api/apiSlice'
-import example from './example.json';
 
-const BranymForm = ({ slug }: { slug?: string }) => {
-    const { data: studentData, isLoading, error } = useGetStudentQuery(slug);
+const BranymForm = ({ slug }: { slug?: string | undefined }) => {
+
+    const { data: studentData, isLoading, error } = useGetStudentQuery(slug!, {
+        skip: !slug,  // Skip the API call if slug is not provided
+    });
+
     const [createNewStudent] = useCreateNewStudentMutation()
     const [data, setData] = useState<any>({})
 
@@ -20,7 +22,7 @@ const BranymForm = ({ slug }: { slug?: string }) => {
             }))
         }
         else return {
-            id: refData?.data["id"],
+            id: refData?.data?.id,
             value: refData?.data?.attributes[field],
             label: refData?.data?.attributes[field],
         }
@@ -49,17 +51,6 @@ const BranymForm = ({ slug }: { slug?: string }) => {
                         obj[`${name}`][`${field.name}`] = initialData[`${field.name}`]
                     }
                 }
-
-                // for (let k = 0; k < schema.length; k++) {
-                //     const field = schema[k];
-                //     if (field.type === "ref:strapi") {
-
-                //         obj[`${field.name}`] = convertRef(initialData[`${field.name}`], field.rules?.field)
-                //     }
-                //     else {
-                //         obj[`${field.name}`] = initialData[`${field.name}`]
-                //     }
-                // }
 
             }
 
@@ -93,16 +84,14 @@ const BranymForm = ({ slug }: { slug?: string }) => {
             }
 
         }
-        setData(obj)
-        // return obj
 
+        setData(obj)
     }
 
     useEffect(() => {
         if (studentData) {
             populateData(formView, studentData?.data?.attributes)
         }
-
     }, [studentData])
 
     const handleSubmit = async () => {
@@ -154,12 +143,11 @@ const BranymForm = ({ slug }: { slug?: string }) => {
                 submissionData = { ...submissionData, ...transformData(schema, name, data[name]) }
             }
         })
+
         console.log("data", submissionData);
         console.log("data ", data);
-        await createNewStudent(submissionData)
+        await createNewStudent({ id: slug, data: submissionData })
     }
-
-
 
     return (
         <MasterForm data={data} fields={formView} setData={setData} onSubmit={handleSubmit} />

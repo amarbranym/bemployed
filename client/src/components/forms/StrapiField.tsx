@@ -11,13 +11,11 @@ const StrapiField = ({ ...props }) => {
     const { setFieldValue } = useFormikContext<any>();
     const [showMenu, setShowMenu] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useState<string>("");
-    // const [selectedValue, setSelectedValue] = useState<any>(props?.multiple ? [] : null);
     const [values, setValues] = useState<any[]>([]);
 
 
     useEffect(() => {
         setFieldValue(props.name, props?.multiple ? [] : null);
-
     }, [])
 
     useEffect(() => {
@@ -27,8 +25,7 @@ const StrapiField = ({ ...props }) => {
                 setSearchValue(meta?.value.label)
             }
         }
-
-    }, [props.name, meta])
+    }, [props.name, meta.value, props.multiple])
 
     const { data, refetch } = useGetOptionsQuery(
         { searchValue, model: props.rules.model },
@@ -54,15 +51,6 @@ const StrapiField = ({ ...props }) => {
             refetch();
         }
     }, [isSuccess, refetch, props.rules.model]);
-
-    // useEffect(() => {
-    //     if (props?.multiple) {
-    //         setFieldValue(props.name, selectedValue.length ? selectedValue.map((val: any) => val) : []);
-    //     }
-    //     else {
-    //         setFieldValue(props.name, selectedValue)
-    //     }
-    // }, [selectedValue, setFieldValue, props.name, props.multiple]);
 
     const inputRef = useRef<any>(null);
 
@@ -101,7 +89,7 @@ const StrapiField = ({ ...props }) => {
         } else {
             newValue = option;
         }
-       
+
         setFieldValue(props.name, newValue);
         setSearchValue(props?.multiple ? "" : option.label);
         setShowMenu(false);
