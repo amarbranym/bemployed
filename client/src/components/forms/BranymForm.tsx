@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react'
 import MasterForm from './MasterForm'
 import { FormData, formView } from "./SchemaData"
 import { useCreateNewStudentMutation, useGetStudentQuery } from '@/redux/api/apiSlice'
+import { useField } from 'formik'
+import toast from 'react-hot-toast'
 
 const BranymForm = ({ slug }: { slug?: string | undefined }) => {
-
     const { data: studentData, isLoading, error } = useGetStudentQuery(slug!, {
         skip: !slug,  // Skip the API call if slug is not provided
     });
@@ -95,11 +96,21 @@ const BranymForm = ({ slug }: { slug?: string | undefined }) => {
     }, [studentData])
 
     const handleSubmit = async () => {
+        let isValid: boolean = false
         const transformData = (schema: FormData[], name: string, data: any) => {
             const obj: any = {}
 
             for (let index = 0; index < schema.length; index++) {
                 const field: FormData = schema[index];
+
+                // Check if required field is missing in data
+                if (field.required) {
+                    if (!data[field?.name] || data[field?.name] === undefined || data[field?.name] === null || data[field?.name] === '') {
+                        isValid = true
+                    }
+                }
+
+
                 if (Object.hasOwn(data || {}, field?.name)) {
                     if (field.type === "ref:strapi") {
                         if (field?.multiple) {
@@ -142,11 +153,14 @@ const BranymForm = ({ slug }: { slug?: string | undefined }) => {
             else if (type === "Basic") {
                 submissionData = { ...submissionData, ...transformData(schema, name, data[name]) }
             }
-        })
+        });
 
-        console.log("data", submissionData);
-        console.log("data ", data);
-        await createNewStudent({ id: slug, data: submissionData })
+        if (isValid === false) {
+            await createNewStudent({ id: slug, data: submissionData })
+        } else {
+            toast.error("Form submission aborted due to missing required fields.")
+            isValid = false
+        }
     }
 
     return (

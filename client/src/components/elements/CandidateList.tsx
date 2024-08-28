@@ -1,7 +1,14 @@
 import React from 'react'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
+import Link from 'next/link'
+import { useDeleteStudentMutation } from '@/redux/api/apiSlice'
 const CandidateList = ({ candidate }: any) => {
+    const [deleteStudent] = useDeleteStudentMutation();
+
+    const handleDelete = async (id: number) => {
+        await deleteStudent(id)
+    }
     return (
         <ul role="list" className="divide-y divide-gray-100">
             {candidate?.map((item: any) => (
@@ -15,7 +22,7 @@ const CandidateList = ({ candidate }: any) => {
                             <p className="mt-1 truncate text-xs leading-5 text-gray-500">{item.attributes.Email}</p>
                         </div>
                     </div>
-               
+
                     <Menu as="div" className="relative flex-none ">
                         <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
                             <span className="sr-only">Open options</span>
@@ -26,14 +33,14 @@ const CandidateList = ({ candidate }: any) => {
                             className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
                         >
                             <MenuItem>
-                                <a href="#" className="block px-3 py-1 text-sm leading-6 text-gray-900 data-[focus]:bg-gray-50">
+                                <Link href={`form/${item?.id}`} className="block px-3 py-1 text-sm leading-6 text-gray-900 data-[focus]:bg-gray-50">
                                     Edit<span className="sr-only">, {item.attributes.FristName}</span>
-                                </a>
+                                </Link>
                             </MenuItem>
                             <MenuItem>
-                                <a href="#" className="block px-3 py-1 text-sm leading-6 text-gray-900 data-[focus]:bg-gray-50">
+                                <Link href="#" onClick={() => handleDelete(item?.id)} className="block px-3 py-1 text-sm leading-6 text-gray-900 data-[focus]:bg-gray-50">
                                     Delete<span className="sr-only">, {item.attributes.FirstName}</span>
-                                </a>
+                                </Link>
                             </MenuItem>
                         </MenuItems>
                     </Menu>

@@ -1137,8 +1137,12 @@ export interface ApiStudentStudent extends Schema.CollectionType {
     LastName: Attribute.String;
     Contacts: Attribute.Component<'contact.phone', true>;
     DOB: Attribute.Date;
-    Gender: Attribute.Enumeration<['Male', 'Female', 'Other']>;
-    MaritalStatus: Attribute.Enumeration<['Married', 'Unmarried', 'Divorced']>;
+    Gender: Attribute.Enumeration<['Male', 'Female', 'Other', 'Unspecified']> &
+      Attribute.DefaultTo<'Unspecified'>;
+    MaritalStatus: Attribute.Enumeration<
+      ['Married', 'Unmarried', 'Divorced', 'Unspecified']
+    > &
+      Attribute.DefaultTo<'Unspecified'>;
     IndustriesPreference: Attribute.Relation<
       'api::student.student',
       'oneToMany',

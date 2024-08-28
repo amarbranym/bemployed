@@ -13,7 +13,6 @@ const StrapiField = ({ ...props }) => {
     const [searchValue, setSearchValue] = useState<string>("");
     const [values, setValues] = useState<any[]>([]);
 
-
     useEffect(() => {
         setFieldValue(props.name, props?.multiple ? [] : null);
     }, [])

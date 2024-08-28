@@ -16,9 +16,16 @@ export const apiSlice = createApi({
         credentials: "include" as const,
       }),
     }),
+    deleteStudent: builder.mutation({
+      query: (studentId) => ({
+        url: `students/${studentId}`,
+        method: "DELETE",
+        credentials: "include" as const,
+      }),
+    }),
     getCandidateList: builder.mutation({
-      query: (page:number) => ({
-        url: `students?${populateQuery}&pagination[page]=${page}&pagination[pageSize]=10`,
+      query: (page: number) => ({
+        url: `students?${populateQuery}&pagination[page]=${page}&pagination[pageSize]=6&filters[Email][$null]`,
         method: "GET",
         credentials: "include" as const,
       }),
@@ -67,4 +74,5 @@ export const {
   useCreateNewEntryMutation,
   useCreateNewStudentMutation,
   useGetCandidateListMutation,
+  useDeleteStudentMutation,
 } = apiSlice;

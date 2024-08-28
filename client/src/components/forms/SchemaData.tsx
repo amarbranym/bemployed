@@ -31,12 +31,51 @@ yearOptions.push({ label: "Choose here", value: "" });
 for (let year = startYear; year <= currentYear; year++) {
     yearOptions.push({ label: `y${year.toString()}`, value: `y${year.toString()}` });
 }
+export const operators: OptionSechma[] = [
+    { label: "createdAt", value: "Date" },
+    { label: "createdBy", value: "Date" },
+    { label: "DOB", value: "String" },
+    { label: "Email", value: "String" },
+    { label: "FatherName", value: "String" },
+    { label: "Gender", value: "String" },
+    { label: "id", value: "Number" },
+    { label: "MaritalStatus", value: "MaritalStatus" },
+    { label: "updatedAt", value: "Date" },
+    { label: "updatedBy", value: "Date" },
+];
+
 const genderOptions: OptionSechma[] = [
     { label: "Choose here", value: "" },
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
     { label: "Other", value: "other" }
 ];
+
+export const filterOprators = [
+    { label: "Equal", value: "$eq", "fieldTypes": ["String", "Number", "Date"] },
+    { label: "Equal (case-insensitive)", value: "$eqi", "fieldTypes": ["String"] },
+    { label: "Not equal", value: "$ne", "fieldTypes": ["String", "Number", "Date"] },
+    { label: "Not equal (case-insensitive)", value: "$nei", "fieldTypes": ["String"] },
+    { label: "Less than", value: "$lt", "fieldTypes": ["Number", "Date"] },
+    { label: "Less than or equal to", value: "$lte", "fieldTypes": ["Number", "Date"] },
+    { label: "Greater than", value: "$gt", "fieldTypes": ["Number", "Date"] },
+    { label: "Greater than or equal to", value: "$gte", "fieldTypes": ["Number", "Date"] },
+    { label: "Included in an array", value: "$in", "fieldTypes": ["String", "Number"] },
+    { label: "Not included in an array", value: "$notIn", "fieldTypes": ["String", "Number"] },
+    { label: "Contains", value: "$contains", "fieldTypes": ["String"] },
+    { label: "Does not contain", value: "$notContains", "fieldTypes": ["String"] },
+    { label: "Contains (case-insensitive)", value: "$containsi", "fieldTypes": ["String"] },
+    { label: "Does not contain (case-insensitive)", value: "$notContainsi", "fieldTypes": ["String"] },
+    { label: "Is null", value: "$null", "fieldTypes": ["String", "Number", "Date"] },
+    { label: "Is not null", value: "$notNull", "fieldTypes": ["String", "Number", "Date"] },
+    { label: "Is between", value: "$between", "fieldTypes": ["Number", "Date"] },
+    { label: "Starts with", value: "$startsWith", "fieldTypes": ["String"] },
+    { label: "Starts with (case-insensitive)", value: "$startsWithi", "fieldTypes": ["String"] },
+    { label: "Ends with", "value": "$endsWith", "fieldTypes": ["String"] },
+    { label: "Ends with (case-insensitive)", value: "$endsWithi", "fieldTypes": ["String"] },
+
+];
+
 const maritalStatusOptions: OptionSechma[] = [
     { label: "Choose here", value: "" },
     { label: "Unmarried", value: "unmarried" },
@@ -311,7 +350,7 @@ export const experienceSchema: FormData[] = [
         name: 'Duration',
         type: 'number',
         label: 'Duration',
-        required:true,
+        required: true,
         rules: {
             min_length: 5,
             max_length: 80,

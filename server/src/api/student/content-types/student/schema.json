@@ -53,16 +53,20 @@
       "enum": [
         "Male",
         "Female",
-        "Other"
-      ]
+        "Other",
+        "Unspecified"
+      ],
+      "default": "Unspecified"
     },
     "MaritalStatus": {
       "type": "enumeration",
       "enum": [
         "Married",
         "Unmarried",
-        "Divorced"
-      ]
+        "Divorced",
+        "Unspecified"
+      ],
+      "default": "Unspecified"
     },
     "IndustriesPreference": {
       "type": "relation",
