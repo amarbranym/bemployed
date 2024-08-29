@@ -7,6 +7,7 @@ import Pagination from '@/components/elements/Pagination'
 import { Container } from '@/components/layouts/Container'
 import Button from '@/components/ui/Button'
 import { useGetCandidateListMutation } from '@/redux/api/apiSlice'
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
@@ -54,10 +55,12 @@ const Page = () => {
       </div>
 
       <div className=' my-8 flex  '>
-        <div className=" relative">
-          <Button bg='solid' size='md' onClick={() => setOpen(!open)} >Filter</Button>
-          <FilterCom open={open} setOpen={setOpen} filterQuery={filterQuery} setFilterQuery={setFilterQuery} />
-        </div>
+        <Popover className=" relative">
+          <PopoverButton className=" px-4 py-2 bg-white border rounded-md">Filter</PopoverButton>
+          <PopoverPanel anchor="bottom" className=" w-[250px] mt-2 ml-[5.5rem] border p-2 bg-white rounded-md  " >
+            <FilterCom open={open} setOpen={setOpen} filterQuery={filterQuery} setFilterQuery={setFilterQuery} />
+          </PopoverPanel>
+        </Popover>
         <div className='ml-10 flex gap-1'>
           {filterQuery.map((item: any, index: any) => (
             <Chip key={index} text={`${item.operatorFields} ${item.operator}`} handleRemove={() => handleRemove(item.id)} />

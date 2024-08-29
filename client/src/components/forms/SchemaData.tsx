@@ -36,7 +36,7 @@ for (let year = startYear; year <= currentYear; year++) {
 
 export const filterOprators = [
     { label: "Choose here", value: "", fieldTypes:["text", "textarea", "email","ref:strapi", "number", "date"] },
-    { label: "Equal", value: "$eq", fieldTypes: ["text", "textarea", "email","ref:strapi", "number", "date"] },
+    { label: "Equal", value: "$eq", fieldTypes: ["text", "textarea", "email","ref:strapi", "number", "date", "select"] },
     { label: "Equal (case-insensitive)", value: "$eqi", fieldTypes: ["text", "textarea", "email","ref:strapi"] },
     { label: "Not equal", value: "$ne", fieldTypes: ["text", "textarea", "email","ref:strapi", "number", "date"] },
     { label: "Not equal (case-insensitive)", value: "$nei", fieldTypes: ["text", "textarea", "email","ref:strapi"] },
