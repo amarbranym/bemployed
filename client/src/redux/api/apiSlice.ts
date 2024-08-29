@@ -24,8 +24,19 @@ export const apiSlice = createApi({
       }),
     }),
     getCandidateList: builder.mutation({
-      query: (page: number) => ({
-        url: `students?${populateQuery}&pagination[page]=${page}&pagination[pageSize]=6&filters[Email][$null]`,
+      query: (params: { page: number; filterQuery: any[] }) => ({
+        url: `students?${populateQuery}&pagination[page]=${
+          params.page
+        }&pagination[pageSize]=6${
+          params.filterQuery.length > 0
+            ? params.filterQuery.map(
+                (q: any) =>
+                  `&filters[${q.operatorFields}][${q.operator}]${
+                    q.text ? `=${q.text}` : ""
+                  } `
+              )
+            : ""
+        }`,
         method: "GET",
         credentials: "include" as const,
       }),

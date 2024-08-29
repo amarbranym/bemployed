@@ -31,93 +31,36 @@ yearOptions.push({ label: "Choose here", value: "" });
 for (let year = startYear; year <= currentYear; year++) {
     yearOptions.push({ label: `y${year.toString()}`, value: `y${year.toString()}` });
 }
-export const operators: OptionSechma[] = [
-    { label: "createdAt", value: "Date" },
-    { label: "createdBy", value: "Date" },
-    { label: "DOB", value: "String" },
-    { label: "Email", value: "String" },
-    { label: "FatherName", value: "String" },
-    { label: "Gender", value: "String" },
-    { label: "id", value: "Number" },
-    { label: "MaritalStatus", value: "MaritalStatus" },
-    { label: "updatedAt", value: "Date" },
-    { label: "updatedBy", value: "Date" },
-];
 
-const genderOptions: OptionSechma[] = [
-    { label: "Choose here", value: "" },
-    { label: "Male", value: "male" },
-    { label: "Female", value: "female" },
-    { label: "Other", value: "other" }
-];
+
 
 export const filterOprators = [
-    { label: "Equal", value: "$eq", "fieldTypes": ["String", "Number", "Date"] },
-    { label: "Equal (case-insensitive)", value: "$eqi", "fieldTypes": ["String"] },
-    { label: "Not equal", value: "$ne", "fieldTypes": ["String", "Number", "Date"] },
-    { label: "Not equal (case-insensitive)", value: "$nei", "fieldTypes": ["String"] },
-    { label: "Less than", value: "$lt", "fieldTypes": ["Number", "Date"] },
-    { label: "Less than or equal to", value: "$lte", "fieldTypes": ["Number", "Date"] },
-    { label: "Greater than", value: "$gt", "fieldTypes": ["Number", "Date"] },
-    { label: "Greater than or equal to", value: "$gte", "fieldTypes": ["Number", "Date"] },
-    { label: "Included in an array", value: "$in", "fieldTypes": ["String", "Number"] },
-    { label: "Not included in an array", value: "$notIn", "fieldTypes": ["String", "Number"] },
-    { label: "Contains", value: "$contains", "fieldTypes": ["String"] },
-    { label: "Does not contain", value: "$notContains", "fieldTypes": ["String"] },
-    { label: "Contains (case-insensitive)", value: "$containsi", "fieldTypes": ["String"] },
-    { label: "Does not contain (case-insensitive)", value: "$notContainsi", "fieldTypes": ["String"] },
-    { label: "Is null", value: "$null", "fieldTypes": ["String", "Number", "Date"] },
-    { label: "Is not null", value: "$notNull", "fieldTypes": ["String", "Number", "Date"] },
-    { label: "Is between", value: "$between", "fieldTypes": ["Number", "Date"] },
-    { label: "Starts with", value: "$startsWith", "fieldTypes": ["String"] },
-    { label: "Starts with (case-insensitive)", value: "$startsWithi", "fieldTypes": ["String"] },
-    { label: "Ends with", "value": "$endsWith", "fieldTypes": ["String"] },
-    { label: "Ends with (case-insensitive)", value: "$endsWithi", "fieldTypes": ["String"] },
+    { label: "Choose here", value: "", fieldTypes:["text", "textarea", "email","ref:strapi", "number", "date"] },
+    { label: "Equal", value: "$eq", fieldTypes: ["text", "textarea", "email","ref:strapi", "number", "date"] },
+    { label: "Equal (case-insensitive)", value: "$eqi", fieldTypes: ["text", "textarea", "email","ref:strapi"] },
+    { label: "Not equal", value: "$ne", fieldTypes: ["text", "textarea", "email","ref:strapi", "number", "date"] },
+    { label: "Not equal (case-insensitive)", value: "$nei", fieldTypes: ["text", "textarea", "email","ref:strapi"] },
+    { label: "Less than", value: "$lt", fieldTypes: ["number", "date"] },
+    { label: "Less than or equal to", value: "$lte", fieldTypes: ["number", "date"] },
+    { label: "Greater than", value: "$gt", fieldTypes: ["number", "date"] },
+    { label: "Greater than or equal to", value: "$gte", fieldTypes: ["number", "date"] },
+    { label: "Included in an array", value: "$in", fieldTypes: ["text", "textarea", "email","ref:strapi", "number"] },
+    { label: "Not included in an array", value: "$notIn", fieldTypes: ["text", "textarea", "email","ref:strapi", "number"] },
+    { label: "Contains", value: "$contains", fieldTypes: ["text", "textarea", "email","ref:strapi"] },
+    { label: "Does not contain", value: "$notContains", fieldTypes: ["text", "textarea", "email","ref:strapi"] },
+    { label: "Contains (case-insensitive)", value: "$containsi", fieldTypes: ["text", "textarea", "email","ref:strapi","select"] },
+    { label: "Does not contain (case-insensitive)", value: "$notContainsi", fieldTypes: ["text", "textarea", "email","ref:strapi"] },
+    { label: "Is null", value: "$null", fieldTypes: ["text", "textarea", "email","ref:strapi", "number", "date", "select"] },
+    { label: "Is not null", value: "$notNull", fieldTypes: ["text", "textarea", "email","ref:strapi", "number", "date" ,"select"] },
+    { label: "Is between", value: "$between", fieldTypes: ["number", "date"] },
+    { label: "Starts with", value: "$startsWith", fieldTypes: ["text", "textarea", "email","ref:strapi"] },
+    { label: "Starts with (case-insensitive)", value: "$startsWithi", fieldTypes: ["text", "textarea", "email","ref:strapi"] },
+    { label: "Ends with", "value": "$endsWith", "fieldTypes": ["text", "textarea", "email","ref:strapi"] },
+    { label: "Ends with (case-insensitive)", value: "$endsWithi", fieldTypes: ["text", "textarea", "email","ref:strapi"] },
 
 ];
 
-const maritalStatusOptions: OptionSechma[] = [
-    { label: "Choose here", value: "" },
-    { label: "Unmarried", value: "unmarried" },
-    { label: "Married", value: "married" },
-    { label: "Divorced", value: "divorced" },
-];
 
-
-export const CountryCodeOption: OptionSechma[] = [
-    { label: "Choose here", value: "" },
-    { value: 'USA (+1)', label: 'USA (+1)' },
-    { value: 'India (+91)', label: 'India (+91)' },
-    { value: 'UK (+44)', label: 'UK(+44)' },
-    { value: 'Australia (+61)', label: 'Australia (+61)' },
-    { value: 'Japan (+81)', label: 'Japan (+81)' },
-    { value: 'Germany (+49)', label: 'Germany (+49)' },
-    { value: 'France (+33)', label: 'France (+33)' },
-    { value: 'China (+86)', label: 'China (+86)' },
-    { value: 'Italy (+39)', label: 'Italy (+39)' },
-    { value: 'Russia (+7)', label: 'Russia (+7)' },
-];
-export const ContactTypeOptoin: OptionSechma[] = [
-    { label: "Choose here", value: "" },
-    { value: "primary", label: "Primary" },
-    { value: "alternate", label: "Alternate" },
-    { value: "work", label: "Work" },
-    { value: "home", label: "Home" },
-
-];
-export const GenderOption: OptionSechma[] = [
-    { label: "Choose here", value: "" },
-    { value: "male", label: "Male" },
-    { value: "female", label: "Female" },
-    { value: "other", label: "Work" },
-    { value: "home", label: "Home" },
-
-];
-export const addressTypeOption: OptionSechma[] = [
-    { label: "Choose here", value: "" },
-    { value: "permanent", label: "Permanent" },
-    { value: "alternate", label: "Alternate" },
-];
 export const personalSchema: FormData[] = [
     // {
     //     name: 'Profile',
@@ -204,7 +147,11 @@ export const AddressSchema: FormData[] = [
         type: 'select',
         label: 'Address Type',
         rules: {
-            options: addressTypeOption
+            options: [
+                { label: "Choose here", value: "" },
+                { value: "permanent", label: "Permanent" },
+                { value: "alternate", label: "Alternate" },
+            ]
         },
         help: '',
         cols: 6,
@@ -234,7 +181,19 @@ export const ContactSchema: FormData[] = [
         label: 'Country Code',
         required: true,
         rules: {
-            options: CountryCodeOption,
+            options: [
+                { label: "Choose here", value: "" },
+                { value: 'USA (+1)', label: 'USA (+1)' },
+                { value: 'India (+91)', label: 'India (+91)' },
+                { value: 'UK (+44)', label: 'UK(+44)' },
+                { value: 'Australia (+61)', label: 'Australia (+61)' },
+                { value: 'Japan (+81)', label: 'Japan (+81)' },
+                { value: 'Germany (+49)', label: 'Germany (+49)' },
+                { value: 'France (+33)', label: 'France (+33)' },
+                { value: 'China (+86)', label: 'China (+86)' },
+                { value: 'Italy (+39)', label: 'Italy (+39)' },
+                { value: 'Russia (+7)', label: 'Russia (+7)' },
+            ],
         },
         help: '',
         cols: 6,
@@ -258,7 +217,14 @@ export const ContactSchema: FormData[] = [
         label: 'Type',
 
         rules: {
-            options: ContactTypeOptoin,
+            options: [
+                { label: "Choose here", value: "" },
+                { value: "primary", label: "Primary" },
+                { value: "alternate", label: "Alternate" },
+                { value: "work", label: "Work" },
+                { value: "home", label: "Home" },
+            
+            ],
         },
         help: '',
         cols: 12,
@@ -408,7 +374,12 @@ export const otherDetailSchema: FormData[] = [
         type: 'select',
         label: 'Gender',
         rules: {
-            options: genderOptions
+            options: [
+                { label: "Choose here", value: "" },
+                { label: "Male", value: "male" },
+                { label: "Female", value: "female" },
+                { label: "Other", value: "other" }
+            ]
         },
         help: '',
         cols: 6,
@@ -419,7 +390,12 @@ export const otherDetailSchema: FormData[] = [
         type: 'select',
         label: 'Marital Status',
         rules: {
-            options: maritalStatusOptions
+            options: [
+                { label: "Choose here", value: "" },
+                { label: "Unmarried", value: "unmarried" },
+                { label: "Married", value: "married" },
+                { label: "Divorced", value: "divorced" },
+            ]
         },
         help: '',
         cols: 6,
