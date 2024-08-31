@@ -5,7 +5,6 @@ import DataNotFound from '@/components/elements/DataNotFound'
 import FilterCom from '@/components/elements/FilterCom'
 import Pagination from '@/components/elements/Pagination'
 import { Container } from '@/components/layouts/Container'
-import Button from '@/components/ui/Button'
 import { useGetCandidateListMutation } from '@/redux/api/apiSlice'
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react'
 import Link from 'next/link'
@@ -14,12 +13,14 @@ import React, { useEffect, useState } from 'react'
 
 const Page = () => {
   const [getCandidateList, { data, isLoading }] = useGetCandidateListMutation();
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [open, setOpen] = useState<boolean>(false)
+  const [currentPage, setCurrentPage] = useState<number>(data?.meta?.pagination?.page ? data?.meta?.pagination?.page : 1);
   const [filterQuery, setFilterQuery] = useState<any>([])
+  const [empty, isEmpty] = useState(false);
+
   const handleGetCandidates = async (page: number, filterQuery: any) => {
     try {
-      const { data } = await getCandidateList({ page, filterQuery });
+      const {data:list} = await getCandidateList({ page, filterQuery, populateQuery: "populate=experience.Company.Contact,experience.Company.City,experience.Company.Industry,experience.Designation,Skills,qualification.school,qualification.qualification,Contacts,Address,Address.City,IndustriesPreference" });
+      isEmpty(list?.data?.length ? false : true)
     } catch (err) {
       console.error('Error fetching candidate list:', err);
     }
@@ -35,7 +36,7 @@ const Page = () => {
       prevFilterQuery.filter((item: any) => item.id !== id)
     );
   };
-
+  console.log(data?.meta)
   return (
     <Container className='mt-6' >
       <div className='flex justify-between items-center'>
@@ -58,20 +59,18 @@ const Page = () => {
         <Popover className=" relative">
           <PopoverButton className=" px-4 py-2 bg-white border rounded-md">Filter</PopoverButton>
           <PopoverPanel anchor="bottom" className=" w-[250px] mt-2 ml-[5.5rem] border p-2 bg-white rounded-md  " >
-            <FilterCom open={open} setOpen={setOpen} filterQuery={filterQuery} setFilterQuery={setFilterQuery} />
+            <FilterCom filterQuery={filterQuery} setFilterQuery={setFilterQuery} />
           </PopoverPanel>
         </Popover>
         <div className='ml-10 flex gap-1'>
           {filterQuery.map((item: any, index: any) => (
-            <Chip key={index} text={`${item.operatorFields} ${item.operator}`} handleRemove={() => handleRemove(item.id)} />
+            <Chip key={index} text={`${item.operatorFields} ${item.operatorName}`} handleRemove={() => handleRemove(item.id)} />
           ))}
         </div>
       </div>
-      {
-        isLoading ? <div className='loader'></div> : <div>
-          {data?.data?.length > 0 ? <CandidateList candidate={data?.data} /> : <DataNotFound />}
-        </div>
-      }
+      <div>
+        {!empty ? <CandidateList candidate={data?.data} /> : <DataNotFound/>}
+      </div>
 
 
       <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={data?.meta?.pagination

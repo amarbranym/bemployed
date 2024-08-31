@@ -41,7 +41,6 @@ const Button: React.FC<ButtonProps> = ({
             {...props}
         >
             {loading ? <>
-
                 <ImSpinner6 className='animate-spin mr-3' />
                 Loading...
             </> : (

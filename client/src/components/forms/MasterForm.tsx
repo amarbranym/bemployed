@@ -10,10 +10,11 @@ interface MasterFormProps {
     setData: React.Dispatch<React.SetStateAction<any>>,
     data: any,
     onSubmit: any
+    isLoading:boolean
 
 }
 
-const MasterForm: React.FC<MasterFormProps> = ({ fields, onSubmit, data, setData }) => {
+const MasterForm: React.FC<MasterFormProps> = ({ fields, onSubmit, data, setData, isLoading }) => {
     const handleData = (key: string) => {
         
         const func = (values: any) => { 
@@ -45,7 +46,7 @@ const MasterForm: React.FC<MasterFormProps> = ({ fields, onSubmit, data, setData
                 </div>
             ))}
             <div>
-                <Button size="md" bg="solid" type='button' onClick={onSubmit} >Submit</Button>
+                <Button size="md" bg="solid" type='button' onClick={onSubmit} loading={isLoading}>Submit</Button>
             </div>
         </div>
     );

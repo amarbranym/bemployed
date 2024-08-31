@@ -7,11 +7,11 @@ import { useField } from 'formik'
 import toast from 'react-hot-toast'
 
 const BranymForm = ({ slug }: { slug?: string | undefined }) => {
-    const { data: studentData, isLoading, error } = useGetStudentQuery(slug!, {
+    const { data: studentData } = useGetStudentQuery({id:slug!,populateQuery: "populate=experience.Company.Contact,experience.Company.City,experience.Company.Industry,experience.Designation,Skills,qualification.school,qualification.qualification,Contacts,Address,Address.City,IndustriesPreference"}, {
         skip: !slug,  // Skip the API call if slug is not provided
     });
 
-    const [createNewStudent] = useCreateNewStudentMutation()
+    const [createNewStudent, { isLoading }] = useCreateNewStudentMutation()
     const [data, setData] = useState<any>({})
 
     const convertRef = (refData: any, field: any) => {
@@ -41,16 +41,21 @@ const BranymForm = ({ slug }: { slug?: string | undefined }) => {
 
                 for (let k = 0; k < schema.length; k++) {
                     const field = schema[k];
-                    if (field.type === "ref:strapi") {
-                        if (field.multiple) {
-                            obj[`${name}`][`${field.name}`] = convertRef(initialData[`${field.name}`], field.rules?.field)
-                        } else {
+                    try {
+                        if (field.type === "ref:strapi") {
+
+                            if (field.multiple) {
+                                obj[`${name}`][`${field.name}`] = convertRef(initialData[`${field.name}`], field.rules?.field)
+                            } else {
+                                obj[`${name}`][`${field.name}`] = initialData[`${field.name}`]
+                            }
+                        }
+
+                        else {
                             obj[`${name}`][`${field.name}`] = initialData[`${field.name}`]
                         }
                     }
-                    else {
-                        obj[`${name}`][`${field.name}`] = initialData[`${field.name}`]
-                    }
+                    catch (e) { }
                 }
 
             }
@@ -59,12 +64,17 @@ const BranymForm = ({ slug }: { slug?: string | undefined }) => {
                 obj[`${name}`] = {}
                 for (let k = 0; k < schema.length; k++) {
                     const field = schema[k];
-                    if (field.type === "ref:strapi") {
-                        obj[`${name}`][`${field.name}`] = convertRef(initialData[`${name}`][`${field.name}`], field.rules?.field)
+                    try {
+                        if (field.type === "ref:strapi") {
+
+                            obj[`${name}`][`${field.name}`] = convertRef(initialData[`${name}`][`${field.name}`], field.rules?.field)
+
+                        }
+                        else {
+                            obj[`${name}`][`${field.name}`] = initialData[`${name}`][`${field.name}`]
+                        }
                     }
-                    else {
-                        obj[`${name}`][`${field.name}`] = initialData[`${name}`][`${field.name}`]
-                    }
+                    catch (e) { }
                 }
             }
 
@@ -164,7 +174,7 @@ const BranymForm = ({ slug }: { slug?: string | undefined }) => {
     }
 
     return (
-        <MasterForm data={data} fields={formView} setData={setData} onSubmit={handleSubmit} />
+        <MasterForm data={data} fields={formView} setData={setData} onSubmit={handleSubmit} isLoading={isLoading} />
     )
 }
 

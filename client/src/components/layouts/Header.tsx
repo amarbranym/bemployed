@@ -4,6 +4,8 @@ import Button from '../ui/Button'
 import RightArrow from '../icons/RightArrow'
 import { usePathname, useRouter } from 'next/navigation'
 import Logo from './Logo'
+import makePayment from '@/services/razorpay/makePayment'
+import Loader from '../ui/Loader'
 
 const Header = () => {
     const [studentId, setStudentId] = useState<number | "">('');
@@ -44,7 +46,19 @@ const Header = () => {
         const numberValue = value === '' ? '' : parseInt(value, 10);
         setStudentId(numberValue);
     };
+
+    const handlePayment = () => {
+        makePayment(
+            { name: "Amarjeet", email: "john.doe@example.com", contact: "9999999999" },
+            (response: any) => {
+                alert("Payment successful!");
+                console.log("Payment success response:", response);
+            }
+        );
+    };
     return (
+        <>
+        <Loader/>
         <header className=' sticky top-0 bg-white py-3 px-4 flex items-center justify-between border-b print:hidden'>
             <div className='text-2xl font-bold mt-1'>
                 <Logo />
@@ -52,6 +66,7 @@ const Header = () => {
             <div className='flex gap-4'>
                 <Button onClick={handleDecrement}><RightArrow className='size-4 rotate-180 ' /> </Button>
                 <Button onClick={handleIncrement}><RightArrow className='size-4 ' /></Button>
+                <Button onClick={handlePayment}>pay</Button>
 
                 <input
                     id="search"
@@ -64,6 +79,7 @@ const Header = () => {
                 <Button onClick={handleSearch} >Search</Button>
             </div>
         </header>
+        </>
     )
 }
 

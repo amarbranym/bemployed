@@ -1,8 +1,22 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import toast from "react-hot-toast";
-const populateQuery =
-  "populate=experience.Company.Contact,experience.Company.City,experience.Company.Industry,experience.Designation,Skills,qualification.school,qualification.qualification,Contacts,Address,Address.City,IndustriesPreference";
-export const apiSlice = createApi({
+
+const onStart = (message?: string, onSuccess?: any) =>
+  async function onQueryStarted(arg: any, { queryFulfilled, dispatch }: any) {
+    document.getElementById("loader")?.classList.remove("opacity-0");
+    try {
+      const result = await queryFulfilled;
+      document.getElementById("loader")?.classList.add("opacity-0");
+      if (onSuccess) onSuccess(dispatch, arg);
+      if (message) toast.success(message);
+    } catch (error: any) {
+      console.log(error);
+      document.getElementById("loader")?.classList.add("opacity-0");
+    }
+  };
+  
+
+export const apiSlice: any = createApi({
   reducerPath: "api",
   tagTypes: ["strapi"],
   baseQuery: fetchBaseQuery({
@@ -10,11 +24,12 @@ export const apiSlice = createApi({
   }),
   endpoints: (builder) => ({
     getStudent: builder.query({
-      query: (studentId) => ({
-        url: `students/${studentId}?${populateQuery}`,
+      query: (params: {id:string, populateQuery?:string}) => ({
+        url: `students/${params.id}?${params.populateQuery}`,
         method: "GET",
         credentials: "include" as const,
       }),
+      onQueryStarted: onStart(),
     }),
     deleteStudent: builder.mutation({
       query: (studentId) => ({
@@ -22,10 +37,18 @@ export const apiSlice = createApi({
         method: "DELETE",
         credentials: "include" as const,
       }),
+      onQueryStarted: onStart("Deleted Successfuly", (dispatch: any) => {
+        dispatch(
+          apiSlice.endpoints.getCandidateList.initiate({
+            page: 1,
+            filterQuery: [],
+          })
+        );
+      }),
     }),
     getCandidateList: builder.mutation({
-      query: (params: { page: number; filterQuery: any[] }) => ({
-        url: `students?${populateQuery}&pagination[page]=${
+      query: (params: { page: number; filterQuery: any[]; populateQuery: string }) => ({
+        url: `students?${params.populateQuery}&pagination[page]=${
           params.page
         }&pagination[pageSize]=6${
           params.filterQuery.length > 0
@@ -40,6 +63,7 @@ export const apiSlice = createApi({
         method: "GET",
         credentials: "include" as const,
       }),
+      onQueryStarted: onStart(),
     }),
     getOptions: builder.query({
       query: (params: { searchValue: string; model: string }) => ({
@@ -47,6 +71,7 @@ export const apiSlice = createApi({
         method: "GET",
         credentials: "include" as const,
       }),
+      onQueryStarted: onStart(),
     }),
     createNewEntry: builder.mutation({
       query: (params: { data: any; model: string }) => ({
@@ -57,6 +82,7 @@ export const apiSlice = createApi({
           data: params.data,
         },
       }),
+      onQueryStarted: onStart(),
     }),
     createNewStudent: builder.mutation({
       query: (params: { id: string | undefined; data: any }) => ({
@@ -67,14 +93,7 @@ export const apiSlice = createApi({
           data: params.data,
         },
       }),
-      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
-        try {
-          const result = await queryFulfilled;
-          toast.success("Saved");
-        } catch (error: any) {
-          console.log(error);
-        }
-      },
+      onQueryStarted: onStart("Created New Document Successfully"),
     }),
   }),
 });

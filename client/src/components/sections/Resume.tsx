@@ -27,15 +27,12 @@ function extractCountryCode(input: any) {
 
 
 const Resume = ({ slug = 37 }: any) => {
-    const { data, isLoading, error } = useGetStudentQuery(slug);
-    if (isLoading) {
-        return <Loader />
-
-    }
-    if (data == undefined) {
+    const { data, isLoading, error } = useGetStudentQuery({id:slug, populateQuery:"populate=experience.Company.Contact,experience.Company.City,experience.Company.Industry,experience.Designation,Skills,qualification.school,qualification.qualification,Contacts,Address,Address.City,IndustriesPreference"});
+   
+    if (data == undefined && !isLoading) {
         return <DataNotFound />
     }
-    return (
+    else if(data != undefined && !isLoading) return (
         <div className='  page-container  mx-auto px-6 py-6 '>
             <div className="page-footer  ">
                 <span>Candidate Id: 99</span> <span className='h-[1px] bg-black w-[50%]'></span> <span className='font-bold'>Powered by Bemployed</span>
@@ -81,7 +78,7 @@ const Resume = ({ slug = 37 }: any) => {
 
                                     </div>
                                     {
-                                        data?.data?.attributes?.experience.length > 0 && <>
+                                        data?.data?.attributes?.experience?.length > 0 && <>
                                             <Horizontalline text="Experience" />
                                             <div>
                                                 {data?.data?.attributes?.experience.map((item: any) => (

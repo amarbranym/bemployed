@@ -7,6 +7,7 @@ const page = () => {
     <Container >
       <div className='py-10'>
         <BranymForm  />
+        
       </div>
     </Container>
   )

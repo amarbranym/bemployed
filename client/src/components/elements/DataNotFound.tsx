@@ -6,7 +6,7 @@ interface Props {
 }
 const DataNotFound: React.FC<Props> = ({ handleToggleSidebar }) => {
     return (
-        <div className=' mt-40 '>
+        <div className=' my-40 '>
             <div className='text-center'>
                 <h1 className="text-2xl  font-bold leading-10 ">No Data Available</h1>
                 <p className='text-xl '>
